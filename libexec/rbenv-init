@@ -3,7 +3,7 @@
 # Usage: eval "$(rbenv init - [--no-rehash] [<shell>])"
 
 set -e
-[ -n "$RBENV_DEBUG" ] && set -x
+[ -n "$GOENV_DEBUG" ] && set -x
 
 print=""
 no_rehash=""

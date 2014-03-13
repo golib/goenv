@@ -13,7 +13,7 @@
 # documentation.
 
 set -e
-[ -n "$RBENV_DEBUG" ] && set -x
+[ -n "$GOENV_DEBUG" ] && set -x
 
 command_path() {
   local command="$1"

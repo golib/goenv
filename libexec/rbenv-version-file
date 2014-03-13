@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Summary: Detect the file that sets the current rbenv version
 set -e
-[ -n "$RBENV_DEBUG" ] && set -x
+[ -n "$GOENV_DEBUG" ] && set -x
 
 find_local_version_file() {
   local root="$1"

@@ -513,7 +513,7 @@ tracker](https://github.com/sstephenson/rbenv/issues).
 * Added support for storing rbenv versions and shims in directories
   other than `~/.rbenv` with the `$RBENV_ROOT` environment variable.
 * Added support for debugging rbenv via `set -x` when the
-  `$RBENV_DEBUG` environment variable is set.
+  `$GOENV_DEBUG` environment variable is set.
 * Refactored the autocompletion system so that completions are now
   built-in to each command and shared between bash and Zsh.
 * Added support for plugin bundles in `~/.rbenv/plugins` as documented

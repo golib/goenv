@@ -14,7 +14,7 @@
 #   PATH="$RBENV_ROOT/versions/1.9.3-p327/bin:$PATH" bundle install
 
 set -e
-[ -n "$RBENV_DEBUG" ] && set -x
+[ -n "$GOENV_DEBUG" ] && set -x
 
 # Provide rbenv completions
 if [ "$1" = "--complete" ]; then

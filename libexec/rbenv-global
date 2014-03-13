@@ -13,7 +13,7 @@
 # Run `rbenv versions' for a list of available Ruby versions.
 
 set -e
-[ -n "$RBENV_DEBUG" ] && set -x
+[ -n "$GOENV_DEBUG" ] && set -x
 
 # Provide rbenv completions
 if [ "$1" = "--complete" ]; then

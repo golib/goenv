@@ -3,11 +3,11 @@ set -e
 export -n CDPATH
 
 if [ "$1" = "--debug" ]; then
-  export RBENV_DEBUG=1
+  export GOENV_DEBUG=1
   shift
 fi
 
-if [ -n "$RBENV_DEBUG" ]; then
+if [ -n "$GOENV_DEBUG" ]; then
   export PS4='+ [${BASH_SOURCE##*/}:${LINENO}] '
   set -x
 fi

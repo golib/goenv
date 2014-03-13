@@ -2,7 +2,7 @@
 # Summary: Rehash rbenv shims (run this after installing executables)
 
 set -e
-[ -n "$RBENV_DEBUG" ] && set -x
+[ -n "$GOENV_DEBUG" ] && set -x
 
 SHIM_PATH="${RBENV_ROOT}/shims"
 PROTOTYPE_SHIM_PATH="${SHIM_PATH}/.rbenv-shim"
@@ -43,7 +43,7 @@ create_prototype_shim() {
   cat > "$PROTOTYPE_SHIM_PATH" <<SH
 #!/usr/bin/env bash
 set -e
-[ -n "\$RBENV_DEBUG" ] && set -x
+[ -n "\$GOENV_DEBUG" ] && set -x
 
 program="\${0##*/}"
 if [ "\$program" = "ruby" ]; then

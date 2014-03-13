@@ -6,6 +6,6 @@
 # version-name'.
 
 set -e
-[ -n "$RBENV_DEBUG" ] && set -x
+[ -n "$GOENV_DEBUG" ] && set -x
 
 echo "$(rbenv-version-name) (set by $(rbenv-version-origin))"
