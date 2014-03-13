@@ -5,7 +5,7 @@ load test_helper
 create_executable() {
   local bin
   if [[ $1 == */* ]]; then bin="$1"
-  else bin="${RBENV_ROOT}/versions/${1}/bin"
+  else bin="${GOENV_ROOT}/versions/${1}/bin"
   fi
   mkdir -p "$bin"
   touch "${bin}/$2"
@@ -17,15 +17,15 @@ create_executable() {
   create_executable "2.0" "rspec"
 
   RBENV_VERSION=1.8 run rbenv-which ruby
-  assert_success "${RBENV_ROOT}/versions/1.8/bin/ruby"
+  assert_success "${GOENV_ROOT}/versions/1.8/bin/ruby"
 
   RBENV_VERSION=2.0 run rbenv-which rspec
-  assert_success "${RBENV_ROOT}/versions/2.0/bin/rspec"
+  assert_success "${GOENV_ROOT}/versions/2.0/bin/rspec"
 }
 
 @test "searches PATH for system version" {
   create_executable "${RBENV_TEST_DIR}/bin" "kill-all-humans"
-  create_executable "${RBENV_ROOT}/shims" "kill-all-humans"
+  create_executable "${GOENV_ROOT}/shims" "kill-all-humans"
 
   RBENV_VERSION=system run rbenv-which kill-all-humans
   assert_success "${RBENV_TEST_DIR}/bin/kill-all-humans"

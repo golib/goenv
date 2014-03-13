@@ -3,7 +3,7 @@
 load test_helper
 
 create_version() {
-  mkdir -p "${RBENV_ROOT}/versions/$1"
+  mkdir -p "${GOENV_ROOT}/versions/$1"
 }
 
 setup() {
@@ -19,13 +19,13 @@ stub_system_ruby() {
 
 @test "no versions installed" {
   stub_system_ruby
-  assert [ ! -d "${RBENV_ROOT}/versions" ]
+  assert [ ! -d "${GOENV_ROOT}/versions" ]
   run rbenv-versions
-  assert_success "* system (set by ${RBENV_ROOT}/version)"
+  assert_success "* system (set by ${GOENV_ROOT}/version)"
 }
 
 @test "bare output no versions installed" {
-  assert [ ! -d "${RBENV_ROOT}/versions" ]
+  assert [ ! -d "${GOENV_ROOT}/versions" ]
   run rbenv-versions --bare
   assert_success ""
 }
@@ -36,7 +36,7 @@ stub_system_ruby() {
   run rbenv-versions
   assert_success
   assert_output <<OUT
-* system (set by ${RBENV_ROOT}/version)
+* system (set by ${GOENV_ROOT}/version)
   1.9
 OUT
 }
@@ -55,7 +55,7 @@ OUT
   run rbenv-versions
   assert_success
   assert_output <<OUT
-* system (set by ${RBENV_ROOT}/version)
+* system (set by ${GOENV_ROOT}/version)
   1.8.7
   1.9.3
   2.0.0
@@ -90,12 +90,12 @@ OUT
   stub_system_ruby
   create_version "1.9.3"
   create_version "2.0.0"
-  cat > "${RBENV_ROOT}/version" <<<"1.9.3"
+  cat > "${GOENV_ROOT}/version" <<<"1.9.3"
   run rbenv-versions
   assert_success
   assert_output <<OUT
   system
-* 1.9.3 (set by ${RBENV_ROOT}/version)
+* 1.9.3 (set by ${GOENV_ROOT}/version)
   2.0.0
 OUT
 }

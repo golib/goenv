@@ -8,16 +8,16 @@ setup() {
 }
 
 @test "reports global file even if it doesn't exist" {
-  assert [ ! -e "${RBENV_ROOT}/version" ]
+  assert [ ! -e "${GOENV_ROOT}/version" ]
   run rbenv-version-origin
-  assert_success "${RBENV_ROOT}/version"
+  assert_success "${GOENV_ROOT}/version"
 }
 
 @test "detects global file" {
-  mkdir -p "$RBENV_ROOT"
-  touch "${RBENV_ROOT}/version"
+  mkdir -p "$GOENV_ROOT"
+  touch "${GOENV_ROOT}/version"
   run rbenv-version-origin
-  assert_success "${RBENV_ROOT}/version"
+  assert_success "${GOENV_ROOT}/version"
 }
 
 @test "detects RBENV_VERSION" {

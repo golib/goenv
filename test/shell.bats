@@ -40,13 +40,13 @@ SH
 }
 
 @test "shell change version" {
-  mkdir -p "${RBENV_ROOT}/versions/1.2.3"
+  mkdir -p "${GOENV_ROOT}/versions/1.2.3"
   RBENV_SHELL=bash run rbenv-sh-shell 1.2.3
   assert_success 'export RBENV_VERSION="1.2.3"'
 }
 
 @test "shell change version (fish)" {
-  mkdir -p "${RBENV_ROOT}/versions/1.2.3"
+  mkdir -p "${GOENV_ROOT}/versions/1.2.3"
   RBENV_SHELL=fish run rbenv-sh-shell 1.2.3
   assert_success 'setenv RBENV_VERSION "1.2.3"'
 }

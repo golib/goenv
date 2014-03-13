@@ -6,9 +6,9 @@ load test_helper
   mkdir -p "${RBENV_TEST_DIR}/myproject"
   cd "${RBENV_TEST_DIR}/myproject"
   echo "1.2.3" > .ruby-version
-  mkdir -p "${RBENV_ROOT}/versions/1.2.3"
+  mkdir -p "${GOENV_ROOT}/versions/1.2.3"
   run rbenv-prefix
-  assert_success "${RBENV_ROOT}/versions/1.2.3"
+  assert_success "${GOENV_ROOT}/versions/1.2.3"
 }
 
 @test "prefix for invalid version" {

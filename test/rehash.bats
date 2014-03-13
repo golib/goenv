@@ -3,32 +3,32 @@
 load test_helper
 
 create_executable() {
-  local bin="${RBENV_ROOT}/versions/${1}/bin"
+  local bin="${GOENV_ROOT}/versions/${1}/bin"
   mkdir -p "$bin"
   touch "${bin}/$2"
   chmod +x "${bin}/$2"
 }
 
 @test "empty rehash" {
-  assert [ ! -d "${RBENV_ROOT}/shims" ]
+  assert [ ! -d "${GOENV_ROOT}/shims" ]
   run rbenv-rehash
   assert_success ""
-  assert [ -d "${RBENV_ROOT}/shims" ]
-  rmdir "${RBENV_ROOT}/shims"
+  assert [ -d "${GOENV_ROOT}/shims" ]
+  rmdir "${GOENV_ROOT}/shims"
 }
 
 @test "non-writable shims directory" {
-  mkdir -p "${RBENV_ROOT}/shims"
-  chmod -w "${RBENV_ROOT}/shims"
+  mkdir -p "${GOENV_ROOT}/shims"
+  chmod -w "${GOENV_ROOT}/shims"
   run rbenv-rehash
-  assert_failure "rbenv: cannot rehash: ${RBENV_ROOT}/shims isn't writable"
+  assert_failure "rbenv: cannot rehash: ${GOENV_ROOT}/shims isn't writable"
 }
 
 @test "rehash in progress" {
-  mkdir -p "${RBENV_ROOT}/shims"
-  touch "${RBENV_ROOT}/shims/.rbenv-shim"
+  mkdir -p "${GOENV_ROOT}/shims"
+  touch "${GOENV_ROOT}/shims/.rbenv-shim"
   run rbenv-rehash
-  assert_failure "rbenv: cannot rehash: ${RBENV_ROOT}/shims/.rbenv-shim exists"
+  assert_failure "rbenv: cannot rehash: ${GOENV_ROOT}/shims/.rbenv-shim exists"
 }
 
 @test "creates shims" {
@@ -37,14 +37,14 @@ create_executable() {
   create_executable "2.0" "ruby"
   create_executable "2.0" "rspec"
 
-  assert [ ! -e "${RBENV_ROOT}/shims/ruby" ]
-  assert [ ! -e "${RBENV_ROOT}/shims/rake" ]
-  assert [ ! -e "${RBENV_ROOT}/shims/rspec" ]
+  assert [ ! -e "${GOENV_ROOT}/shims/ruby" ]
+  assert [ ! -e "${GOENV_ROOT}/shims/rake" ]
+  assert [ ! -e "${GOENV_ROOT}/shims/rspec" ]
 
   run rbenv-rehash
   assert_success ""
 
-  run ls "${RBENV_ROOT}/shims"
+  run ls "${GOENV_ROOT}/shims"
   assert_success
   assert_output <<OUT
 rake
@@ -54,9 +54,9 @@ OUT
 }
 
 @test "removes stale shims" {
-  mkdir -p "${RBENV_ROOT}/shims"
-  touch "${RBENV_ROOT}/shims/oldshim1"
-  chmod +x "${RBENV_ROOT}/shims/oldshim1"
+  mkdir -p "${GOENV_ROOT}/shims"
+  touch "${GOENV_ROOT}/shims/oldshim1"
+  chmod +x "${GOENV_ROOT}/shims/oldshim1"
 
   create_executable "2.0" "rake"
   create_executable "2.0" "ruby"
@@ -64,20 +64,20 @@ OUT
   run rbenv-rehash
   assert_success ""
 
-  assert [ ! -e "${RBENV_ROOT}/shims/oldshim1" ]
+  assert [ ! -e "${GOENV_ROOT}/shims/oldshim1" ]
 }
 
 @test "binary install locations containing spaces" {
   create_executable "dirname1 p247" "ruby"
   create_executable "dirname2 preview1" "rspec"
 
-  assert [ ! -e "${RBENV_ROOT}/shims/ruby" ]
-  assert [ ! -e "${RBENV_ROOT}/shims/rspec" ]
+  assert [ ! -e "${GOENV_ROOT}/shims/ruby" ]
+  assert [ ! -e "${GOENV_ROOT}/shims/rspec" ]
 
   run rbenv-rehash
   assert_success ""
 
-  run ls "${RBENV_ROOT}/shims"
+  run ls "${GOENV_ROOT}/shims"
   assert_success
   assert_output <<OUT
 rspec
@@ -103,12 +103,12 @@ SH
   create_executable "2.0" "ruby"
   RBENV_SHELL=bash run rbenv-sh-rehash
   assert_success "hash -r 2>/dev/null || true"
-  assert [ -x "${RBENV_ROOT}/shims/ruby" ]
+  assert [ -x "${GOENV_ROOT}/shims/ruby" ]
 }
 
 @test "sh-rehash in fish" {
   create_executable "2.0" "ruby"
   RBENV_SHELL=fish run rbenv-sh-rehash
   assert_success ""
-  assert [ -x "${RBENV_ROOT}/shims/ruby" ]
+  assert [ -x "${GOENV_ROOT}/shims/ruby" ]
 }

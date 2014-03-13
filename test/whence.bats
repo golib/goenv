@@ -3,7 +3,7 @@
 load test_helper
 
 create_executable() {
-  local bin="${RBENV_ROOT}/versions/${1}/bin"
+  local bin="${GOENV_ROOT}/versions/${1}/bin"
   mkdir -p "$bin"
   touch "${bin}/$2"
   chmod +x "${bin}/$2"

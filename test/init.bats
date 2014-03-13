@@ -3,12 +3,12 @@
 load test_helper
 
 @test "creates shims and versions directories" {
-  assert [ ! -d "${RBENV_ROOT}/shims" ]
-  assert [ ! -d "${RBENV_ROOT}/versions" ]
+  assert [ ! -d "${GOENV_ROOT}/shims" ]
+  assert [ ! -d "${GOENV_ROOT}/versions" ]
   run rbenv-init -
   assert_success
-  assert [ -d "${RBENV_ROOT}/shims" ]
-  assert [ -d "${RBENV_ROOT}/versions" ]
+  assert [ -d "${GOENV_ROOT}/shims" ]
+  assert [ -d "${GOENV_ROOT}/versions" ]
 }
 
 @test "auto rehash" {
@@ -54,26 +54,26 @@ load test_helper
   export PATH="${BATS_TEST_DIRNAME}/../libexec:/usr/bin:/bin:/usr/local/bin"
   run rbenv-init - bash
   assert_success
-  assert_line 0 'export PATH="'${RBENV_ROOT}'/shims:${PATH}"'
+  assert_line 0 'export PATH="'${GOENV_ROOT}'/shims:${PATH}"'
 }
 
 @test "adds shims to PATH (fish)" {
   export PATH="${BATS_TEST_DIRNAME}/../libexec:/usr/bin:/bin:/usr/local/bin"
   run rbenv-init - fish
   assert_success
-  assert_line 0 "setenv PATH '${RBENV_ROOT}/shims' \$PATH"
+  assert_line 0 "setenv PATH '${GOENV_ROOT}/shims' \$PATH"
 }
 
 @test "doesn't add shims to PATH more than once" {
-  export PATH="${RBENV_ROOT}/shims:$PATH"
+  export PATH="${GOENV_ROOT}/shims:$PATH"
   run rbenv-init - bash
   assert_success
-  refute_line 'export PATH="'${RBENV_ROOT}'/shims:${PATH}"'
+  refute_line 'export PATH="'${GOENV_ROOT}'/shims:${PATH}"'
 }
 
 @test "doesn't add shims to PATH more than once (fish)" {
-  export PATH="${RBENV_ROOT}/shims:$PATH"
+  export PATH="${GOENV_ROOT}/shims:$PATH"
   run rbenv-init - fish
   assert_success
-  refute_line 'setenv PATH "'${RBENV_ROOT}'/shims" $PATH ;'
+  refute_line 'setenv PATH "'${GOENV_ROOT}'/shims" $PATH ;'
 }

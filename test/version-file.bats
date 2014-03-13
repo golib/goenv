@@ -13,30 +13,30 @@ create_file() {
 }
 
 @test "prints global file if no version files exist" {
-  assert [ ! -e "${RBENV_ROOT}/version" ]
+  assert [ ! -e "${GOENV_ROOT}/version" ]
   assert [ ! -e ".ruby-version" ]
   run rbenv-version-file
-  assert_success "${RBENV_ROOT}/version"
+  assert_success "${GOENV_ROOT}/version"
 }
 
 @test "detects 'global' file" {
-  create_file "${RBENV_ROOT}/global"
+  create_file "${GOENV_ROOT}/global"
   run rbenv-version-file
-  assert_success "${RBENV_ROOT}/global"
+  assert_success "${GOENV_ROOT}/global"
 }
 
 @test "detects 'default' file" {
-  create_file "${RBENV_ROOT}/default"
+  create_file "${GOENV_ROOT}/default"
   run rbenv-version-file
-  assert_success "${RBENV_ROOT}/default"
+  assert_success "${GOENV_ROOT}/default"
 }
 
 @test "'version' has precedence over 'global' and 'default'" {
-  create_file "${RBENV_ROOT}/version"
-  create_file "${RBENV_ROOT}/global"
-  create_file "${RBENV_ROOT}/default"
+  create_file "${GOENV_ROOT}/version"
+  create_file "${GOENV_ROOT}/global"
+  create_file "${GOENV_ROOT}/default"
   run rbenv-version-file
-  assert_success "${RBENV_ROOT}/version"
+  assert_success "${GOENV_ROOT}/version"
 }
 
 @test "in current directory" {

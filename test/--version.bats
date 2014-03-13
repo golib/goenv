@@ -13,15 +13,15 @@ git_commit() {
 }
 
 @test "default version" {
-  assert [ ! -e "$RBENV_ROOT" ]
+  assert [ ! -e "$GOENV_ROOT" ]
   run rbenv---version
   assert_success
   [[ $output == "rbenv 0."* ]]
 }
 
 @test "reads version from git repo" {
-  mkdir -p "$RBENV_ROOT"
-  cd "$RBENV_ROOT"
+  mkdir -p "$GOENV_ROOT"
+  cd "$GOENV_ROOT"
   git init
   git_commit
   git tag v0.4.1
@@ -35,8 +35,8 @@ git_commit() {
 }
 
 @test "prints default version if no tags in git repo" {
-  mkdir -p "$RBENV_ROOT"
-  cd "$RBENV_ROOT"
+  mkdir -p "$GOENV_ROOT"
+  cd "$GOENV_ROOT"
   git init
   git_commit
 

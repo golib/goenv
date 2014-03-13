@@ -3,7 +3,7 @@
 load test_helper
 
 create_version() {
-  mkdir -p "${RBENV_ROOT}/versions/$1"
+  mkdir -p "${GOENV_ROOT}/versions/$1"
 }
 
 setup() {
@@ -12,9 +12,9 @@ setup() {
 }
 
 @test "no version selected" {
-  assert [ ! -d "${RBENV_ROOT}/versions" ]
+  assert [ ! -d "${GOENV_ROOT}/versions" ]
   run rbenv-version
-  assert_success "system (set by ${RBENV_ROOT}/version)"
+  assert_success "system (set by ${GOENV_ROOT}/version)"
 }
 
 @test "set by RBENV_VERSION" {
@@ -32,7 +32,7 @@ setup() {
 
 @test "set by global file" {
   create_version "1.9.3"
-  cat > "${RBENV_ROOT}/version" <<<"1.9.3"
+  cat > "${GOENV_ROOT}/version" <<<"1.9.3"
   run rbenv-version
-  assert_success "1.9.3 (set by ${RBENV_ROOT}/version)"
+  assert_success "1.9.3 (set by ${GOENV_ROOT}/version)"
 }

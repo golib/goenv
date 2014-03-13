@@ -15,7 +15,7 @@ fi
 
 version_exists() {
   local version="$1"
-  [ -d "${RBENV_ROOT}/versions/${version}" ]
+  [ -d "${GOENV_ROOT}/versions/${version}" ]
 }
 
 if version_exists "$RBENV_VERSION"; then

@@ -474,7 +474,7 @@ tracker](https://github.com/sstephenson/rbenv/issues).
 **0.3.0** (December 25, 2011)
 
 * Added an `rbenv root` command which prints the value of
-  `$RBENV_ROOT`, or the default root directory if it's unset.
+  `$GOENV_ROOT`, or the default root directory if it's unset.
 * Clarified Zsh installation instructions in the Readme.
 * Removed some redundant code in `rbenv rehash`.
 * Fixed an issue with calling `readlink` for paths with spaces.
@@ -511,7 +511,7 @@ tracker](https://github.com/sstephenson/rbenv/issues).
 * Added an `rbenv shell` command for conveniently setting the
   `$RBENV_VERSION` environment variable.
 * Added support for storing rbenv versions and shims in directories
-  other than `~/.rbenv` with the `$RBENV_ROOT` environment variable.
+  other than `~/.rbenv` with the `$GOENV_ROOT` environment variable.
 * Added support for debugging rbenv via `set -x` when the
   `$GOENV_DEBUG` environment variable is set.
 * Refactored the autocompletion system so that completions are now

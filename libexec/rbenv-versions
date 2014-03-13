@@ -2,7 +2,7 @@
 # Summary: List all Ruby versions available to rbenv
 # Usage: rbenv versions [--bare]
 #
-# Lists all Ruby versions found in `$RBENV_ROOT/versions/*'.
+# Lists all Ruby versions found in `$GOENV_ROOT/versions/*'.
 
 set -e
 [ -n "$GOENV_DEBUG" ] && set -x
@@ -32,7 +32,7 @@ if [ -n "$include_system" ] && RBENV_VERSION=system rbenv-which ruby >/dev/null 
   print_version system
 fi
 
-for path in "${RBENV_ROOT}/versions/"*; do
+for path in "${GOENV_ROOT}/versions/"*; do
   if [ -d "$path" ]; then
     print_version "${path##*/}"
   fi

@@ -5,7 +5,7 @@ load test_helper
 create_executable() {
   name="${1?}"
   shift 1
-  bin="${RBENV_ROOT}/versions/${RBENV_VERSION}/bin"
+  bin="${GOENV_ROOT}/versions/${RBENV_VERSION}/bin"
   mkdir -p "$bin"
   { if [ $# -eq 0 ]; then cat -
     else echo "$@"
@@ -73,7 +73,7 @@ SH
   run rbenv-exec ruby -w "/path to/ruby script.rb" -- extra args
   assert_success
   assert_output <<OUT
-${RBENV_ROOT}/versions/2.0/bin/ruby
+${GOENV_ROOT}/versions/2.0/bin/ruby
   -w
   /path to/ruby script.rb
   --

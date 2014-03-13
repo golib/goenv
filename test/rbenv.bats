@@ -14,14 +14,14 @@ load test_helper
   assert_output "rbenv: no such command \`does-not-exist'"
 }
 
-@test "default RBENV_ROOT" {
-  RBENV_ROOT="" HOME=/home/mislav run rbenv root
+@test "default GOENV_ROOT" {
+  GOENV_ROOT="" HOME=/home/mislav run rbenv root
   assert_success
   assert_output "/home/mislav/.rbenv"
 }
 
-@test "inherited RBENV_ROOT" {
-  RBENV_ROOT=/opt/rbenv run rbenv root
+@test "inherited GOENV_ROOT" {
+  GOENV_ROOT=/opt/rbenv run rbenv root
   assert_success
   assert_output "/opt/rbenv"
 }

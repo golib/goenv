@@ -14,7 +14,7 @@ set -e
 
 version="0.4.0"
 
-if cd "$RBENV_ROOT" 2>/dev/null; then
+if cd "$GOENV_ROOT" 2>/dev/null; then
   git_revision="$(git describe --tags HEAD 2>/dev/null || true)"
   git_revision="${git_revision#v}"
 fi

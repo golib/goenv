@@ -36,12 +36,12 @@ abs_dirname() {
   cd "$cwd"
 }
 
-if [ -z "${RBENV_ROOT}" ]; then
-  RBENV_ROOT="${HOME}/.rbenv"
+if [ -z "${GOENV_ROOT}" ]; then
+  GOENV_ROOT="${HOME}/.rbenv"
 else
-  RBENV_ROOT="${RBENV_ROOT%/}"
+  GOENV_ROOT="${GOENV_ROOT%/}"
 fi
-export RBENV_ROOT
+export GOENV_ROOT
 
 if [ -z "${RBENV_DIR}" ]; then
   RBENV_DIR="$(pwd)"
@@ -59,13 +59,13 @@ export RBENV_DIR
 shopt -s nullglob
 
 bin_path="$(abs_dirname "$0")"
-for plugin_bin in "${RBENV_ROOT}/plugins/"*/bin; do
+for plugin_bin in "${GOENV_ROOT}/plugins/"*/bin; do
   bin_path="${bin_path}:${plugin_bin}"
 done
 export PATH="${bin_path}:${PATH}"
 
-hook_path="${RBENV_HOOK_PATH}:${RBENV_ROOT}/rbenv.d:/usr/local/etc/rbenv.d:/etc/rbenv.d:/usr/lib/rbenv/hooks"
-for plugin_hook in "${RBENV_ROOT}/plugins/"*/etc/rbenv.d; do
+hook_path="${RBENV_HOOK_PATH}:${GOENV_ROOT}/rbenv.d:/usr/local/etc/rbenv.d:/etc/rbenv.d:/usr/lib/rbenv/hooks"
+for plugin_hook in "${GOENV_ROOT}/plugins/"*/etc/rbenv.d; do
   hook_path="${hook_path}:${plugin_hook}"
 done
 export RBENV_HOOK_PATH="$hook_path"

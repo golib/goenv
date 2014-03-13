@@ -90,15 +90,15 @@ if [ -z "$print" ]; then
   exit 1
 fi
 
-mkdir -p "${RBENV_ROOT}/"{shims,versions}
+mkdir -p "${GOENV_ROOT}/"{shims,versions}
 
-if [[ ":${PATH}:" != *:"${RBENV_ROOT}/shims":* ]]; then
+if [[ ":${PATH}:" != *:"${GOENV_ROOT}/shims":* ]]; then
   case "$shell" in
   fish )
-    echo "setenv PATH '${RBENV_ROOT}/shims' \$PATH"
+    echo "setenv PATH '${GOENV_ROOT}/shims' \$PATH"
   ;;
   * )
-    echo 'export PATH="'${RBENV_ROOT}'/shims:${PATH}"'
+    echo 'export PATH="'${GOENV_ROOT}'/shims:${PATH}"'
   ;;
   esac
 fi

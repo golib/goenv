@@ -48,7 +48,7 @@ setup() {
 }
 
 @test "sets local version" {
-  mkdir -p "${RBENV_ROOT}/versions/1.2.3"
+  mkdir -p "${GOENV_ROOT}/versions/1.2.3"
   run rbenv-local 1.2.3
   assert_success ""
   assert [ "$(cat .ruby-version)" = "1.2.3" ]
@@ -56,7 +56,7 @@ setup() {
 
 @test "changes local version" {
   echo "1.0-pre" > .ruby-version
-  mkdir -p "${RBENV_ROOT}/versions/1.2.3"
+  mkdir -p "${GOENV_ROOT}/versions/1.2.3"
   run rbenv-local
   assert_success "1.0-pre"
   run rbenv-local 1.2.3
@@ -66,7 +66,7 @@ setup() {
 
 @test "renames .rbenv-version to .ruby-version" {
   echo "1.8.7" > .rbenv-version
-  mkdir -p "${RBENV_ROOT}/versions/1.9.3"
+  mkdir -p "${GOENV_ROOT}/versions/1.9.3"
   run rbenv-local
   assert_success "1.8.7"
   run rbenv-local "1.9.3"
@@ -81,7 +81,7 @@ OUT
 
 @test "doesn't rename .rbenv-version if changing the version failed" {
   echo "1.8.7" > .rbenv-version
-  assert [ ! -e "${RBENV_ROOT}/versions/1.9.3" ]
+  assert [ ! -e "${GOENV_ROOT}/versions/1.9.3" ]
   run rbenv-local "1.9.3"
   assert_failure "rbenv: version \`1.9.3' not installed"
   assert [ ! -e .ruby-version ]

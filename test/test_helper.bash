@@ -4,15 +4,15 @@ unset RBENV_DIR
 RBENV_TEST_DIR="${BATS_TMPDIR}/rbenv"
 
 # guard against executing this block twice due to bats internals
-if [ "$RBENV_ROOT" != "${RBENV_TEST_DIR}/root" ]; then
-  export RBENV_ROOT="${RBENV_TEST_DIR}/root"
+if [ "$GOENV_ROOT" != "${RBENV_TEST_DIR}/root" ]; then
+  export GOENV_ROOT="${RBENV_TEST_DIR}/root"
   export HOME="${RBENV_TEST_DIR}/home"
 
   PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
   PATH="${RBENV_TEST_DIR}/bin:$PATH"
   PATH="${BATS_TEST_DIRNAME}/../libexec:$PATH"
   PATH="${BATS_TEST_DIRNAME}/libexec:$PATH"
-  PATH="${RBENV_ROOT}/shims:$PATH"
+  PATH="${GOENV_ROOT}/shims:$PATH"
   export PATH
 fi
 
@@ -102,7 +102,7 @@ path_without() {
   local found alt util
   for found in $(which -a "$exe"); do
     found="${found%/*}"
-    if [ "$found" != "${RBENV_ROOT}/shims" ]; then
+    if [ "$found" != "${GOENV_ROOT}/shims" ]; then
       alt="${RBENV_TEST_DIR}/$(echo "${found#/}" | tr '/' '-')"
       mkdir -p "$alt"
       for util in bash head cut readlink greadlink; do

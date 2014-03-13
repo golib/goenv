@@ -11,7 +11,7 @@
 #   rbenv exec bundle install
 #
 # is equivalent to:
-#   PATH="$RBENV_ROOT/versions/1.9.3-p327/bin:$PATH" bundle install
+#   PATH="$GOENV_ROOT/versions/1.9.3-p327/bin:$PATH" bundle install
 
 set -e
 [ -n "$GOENV_DEBUG" ] && set -x

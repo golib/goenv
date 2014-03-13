@@ -22,7 +22,7 @@ setup() {
 }
 
 @test "writes value to arbitrary file" {
-  mkdir -p "${RBENV_ROOT}/versions/1.8.7"
+  mkdir -p "${GOENV_ROOT}/versions/1.8.7"
   assert [ ! -e "my-version" ]
   run rbenv-version-file-write "${PWD}/my-version" "1.8.7"
   assert_success ""
