@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Usage: rbenv version-file-read <file>
+# Usage: goenv version-file-read <file>
 set -e
 [ -n "$GOENV_DEBUG" ] && set -x
 

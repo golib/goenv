@@ -20,20 +20,20 @@ stub_system_ruby() {
 @test "no versions installed" {
   stub_system_ruby
   assert [ ! -d "${GOENV_ROOT}/versions" ]
-  run rbenv-versions
+  run goenv-versions
   assert_success "* system (set by ${GOENV_ROOT}/version)"
 }
 
 @test "bare output no versions installed" {
   assert [ ! -d "${GOENV_ROOT}/versions" ]
-  run rbenv-versions --bare
+  run goenv-versions --bare
   assert_success ""
 }
 
 @test "single version installed" {
   stub_system_ruby
   create_version "1.9"
-  run rbenv-versions
+  run goenv-versions
   assert_success
   assert_output <<OUT
 * system (set by ${GOENV_ROOT}/version)
@@ -43,7 +43,7 @@ OUT
 
 @test "single version bare" {
   create_version "1.9"
-  run rbenv-versions --bare
+  run goenv-versions --bare
   assert_success "1.9"
 }
 
@@ -52,7 +52,7 @@ OUT
   create_version "1.8.7"
   create_version "1.9.3"
   create_version "2.0.0"
-  run rbenv-versions
+  run goenv-versions
   assert_success
   assert_output <<OUT
 * system (set by ${GOENV_ROOT}/version)
@@ -66,7 +66,7 @@ OUT
   stub_system_ruby
   create_version "1.9.3"
   create_version "2.0.0"
-  RBENV_VERSION=1.9.3 run rbenv-versions
+  RBENV_VERSION=1.9.3 run goenv-versions
   assert_success
   assert_output <<OUT
   system
@@ -78,7 +78,7 @@ OUT
 @test "bare doesn't indicate current version" {
   create_version "1.9.3"
   create_version "2.0.0"
-  RBENV_VERSION=1.9.3 run rbenv-versions --bare
+  RBENV_VERSION=1.9.3 run goenv-versions --bare
   assert_success
   assert_output <<OUT
 1.9.3
@@ -91,7 +91,7 @@ OUT
   create_version "1.9.3"
   create_version "2.0.0"
   cat > "${GOENV_ROOT}/version" <<<"1.9.3"
-  run rbenv-versions
+  run goenv-versions
   assert_success
   assert_output <<OUT
   system
@@ -105,7 +105,7 @@ OUT
   create_version "1.9.3"
   create_version "2.0.0"
   cat > ".ruby-version" <<<"1.9.3"
-  run rbenv-versions
+  run goenv-versions
   assert_success
   assert_output <<OUT
   system

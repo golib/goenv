@@ -10,34 +10,34 @@ create_command() {
 }
 
 @test "command with no completion support" {
-  create_command "rbenv-hello" "#!$BASH
+  create_command "goenv-hello" "#!$BASH
     echo hello"
-  run rbenv-completions hello
+  run goenv-completions hello
   assert_success ""
 }
 
 @test "command with completion support" {
-  create_command "rbenv-hello" "#!$BASH
-# Provide rbenv completions
+  create_command "goenv-hello" "#!$BASH
+# Provide goenv completions
 if [[ \$1 = --complete ]]; then
   echo hello
 else
   exit 1
 fi"
-  run rbenv-completions hello
+  run goenv-completions hello
   assert_success "hello"
 }
 
 @test "forwards extra arguments" {
-  create_command "rbenv-hello" "#!$BASH
-# provide rbenv completions
+  create_command "goenv-hello" "#!$BASH
+# provide goenv completions
 if [[ \$1 = --complete ]]; then
   shift 1
   for arg; do echo \$arg; done
 else
   exit 1
 fi"
-  run rbenv-completions hello happy world
+  run goenv-completions hello happy world
   assert_success
   assert_output <<OUT
 happy

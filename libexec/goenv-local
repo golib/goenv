@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+#
+# Summary: Set or show the local application-specific Ruby version
+#
+# Usage: goenv local <version>
+#        goenv local --unset
+#
+# Sets the local application-specific Ruby version by writing the
+# version name to a file named `.ruby-version'.
+#
+# When you run a Ruby command, goenv will look for a `.ruby-version'
+# file in the current directory and each parent directory. If no such
+# file is found in the tree, goenv will use the global Ruby version
+# specified with `goenv global'. A version specified with the
+# `RBENV_VERSION' environment variable takes precedence over local
+# and global versions.
+#
+# For backwards compatibility, goenv will also read version
+# specifications from `.goenv-version' files, but a `.ruby-version'
+# file in the same directory takes precedence.
+#
+# <version> should be a string matching a Ruby version known to goenv.
+# The special version string `system' will use your default system Ruby.
+# Run `goenv versions' for a list of available Ruby versions.
+
+set -e
+[ -n "$GOENV_DEBUG" ] && set -x
+
+# Provide goenv completions
+if [ "$1" = "--complete" ]; then
+  echo --unset
+  echo system
+  exec goenv-versions --bare
+fi
+
+RBENV_VERSION="$1"
+
+if [ "$RBENV_VERSION" = "--unset" ]; then
+  rm -f .ruby-version .goenv-version
+elif [ -n "$RBENV_VERSION" ]; then
+  previous_file="$(RBENV_VERSION= goenv-version-origin || true)"
+  goenv-version-file-write .ruby-version "$RBENV_VERSION"
+  if [ "$previous_file" -ef .goenv-version ]; then
+    rm -f .goenv-version
+    { echo "goenv: removed existing \`.goenv-version' file and migrated"
+      echo "       local version specification to \`.ruby-version' file"
+    } >&2
+  fi
+else
+  goenv-version-file-read .ruby-version ||
+  goenv-version-file-read .goenv-version ||
+  { echo "goenv: no local version configured for this directory"
+    exit 1
+  } >&2
+fi

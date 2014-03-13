@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Summary: Configure the shell environment for rbenv
-# Usage: eval "$(rbenv init - [--no-rehash] [<shell>])"
+# Summary: Configure the shell environment for goenv
+# Usage: eval "$(goenv init - [--no-rehash] [<shell>])"
 
 set -e
 [ -n "$GOENV_DEBUG" ] && set -x
@@ -30,7 +30,7 @@ fi
 
 READLINK=$(type -p greadlink readlink | head -1)
 if [ -z "$READLINK" ]; then
-  echo "rbenv: cannot find readlink - are you missing GNU coreutils?" >&2
+  echo "goenv: cannot find readlink - are you missing GNU coreutils?" >&2
   exit 1
 fi
 
@@ -73,15 +73,15 @@ if [ -z "$print" ]; then
     ;;
   esac
 
-  { echo "# Load rbenv automatically by adding"
+  { echo "# Load goenv automatically by adding"
     echo "# the following to ${profile}:"
     echo
     case "$shell" in
     fish )
-      echo 'status --is-interactive; and . (rbenv init -|psub)'
+      echo 'status --is-interactive; and . (goenv init -|psub)'
       ;;
     * )
-      echo 'eval "$(rbenv init -)"'
+      echo 'eval "$(goenv init -)"'
       ;;
     esac
     echo
@@ -112,7 +112,7 @@ fish )
 ;;
 esac
 
-completion="${root}/completions/rbenv.${shell}"
+completion="${root}/completions/goenv.${shell}"
 if [ -r "$completion" ]; then
   case "$shell" in
   fish ) echo ". '$completion'" ;;
@@ -121,22 +121,22 @@ if [ -r "$completion" ]; then
 fi
 
 if [ -z "$no_rehash" ]; then
-  echo 'rbenv rehash 2>/dev/null'
+  echo 'goenv rehash 2>/dev/null'
 fi
 
-commands=(`rbenv-commands --sh`)
+commands=(`goenv-commands --sh`)
 case "$shell" in
 fish )
   cat <<EOS
-function rbenv
+function goenv
   set command \$argv[1]
   set -e argv[1]
 
   switch "\$command"
   case ${commands[*]}
-    eval (rbenv "sh-\$command" \$argv)
+    eval (goenv "sh-\$command" \$argv)
   case '*'
-    command rbenv "\$command" \$argv
+    command goenv "\$command" \$argv
   end
 end
 EOS
@@ -144,13 +144,13 @@ EOS
   ;;
 ksh )
   cat <<EOS
-function rbenv {
+function goenv {
   typeset command
 EOS
   ;;
 * )
   cat <<EOS
-rbenv() {
+goenv() {
   local command
 EOS
   ;;
@@ -165,9 +165,9 @@ cat <<EOS
 
   case "\$command" in
   ${commands[*]})
-    eval "\`rbenv "sh-\$command" "\$@"\`";;
+    eval "\`goenv "sh-\$command" "\$@"\`";;
   *)
-    command rbenv "\$command" "\$@";;
+    command goenv "\$command" "\$@";;
   esac
 }
 EOS

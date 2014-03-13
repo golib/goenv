@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Summary: Detect the file that sets the current rbenv version
+# Summary: Detect the file that sets the current goenv version
 set -e
 [ -n "$GOENV_DEBUG" ] && set -x
 
@@ -9,8 +9,8 @@ find_local_version_file() {
     if [ -e "${root}/.ruby-version" ]; then
       echo "${root}/.ruby-version"
       exit
-    elif [ -e "${root}/.rbenv-version" ]; then
-      echo "${root}/.rbenv-version"
+    elif [ -e "${root}/.goenv-version" ]; then
+      echo "${root}/.goenv-version"
       exit
     fi
     root="${root%/*}"

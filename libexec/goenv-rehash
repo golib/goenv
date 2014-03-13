@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
-# Summary: Rehash rbenv shims (run this after installing executables)
+# Summary: Rehash goenv shims (run this after installing executables)
 
 set -e
 [ -n "$GOENV_DEBUG" ] && set -x
 
 SHIM_PATH="${GOENV_ROOT}/shims"
-PROTOTYPE_SHIM_PATH="${SHIM_PATH}/.rbenv-shim"
+PROTOTYPE_SHIM_PATH="${SHIM_PATH}/.goenv-shim"
 
 # Create the shims directory if it doesn't already exist.
 mkdir -p "$SHIM_PATH"
 
-# Ensure only one instance of rbenv-rehash is running at a time by
+# Ensure only one instance of goenv-rehash is running at a time by
 # setting the shell's `noclobber` option and attempting to write to
 # the prototype shim file. If the file already exists, print a warning
 # to stderr and exit with a non-zero status.
@@ -18,9 +18,9 @@ set -o noclobber
 { echo > "$PROTOTYPE_SHIM_PATH"
 } 2>/dev/null ||
 { if [ -w "$SHIM_PATH" ]; then
-    echo "rbenv: cannot rehash: $PROTOTYPE_SHIM_PATH exists"
+    echo "goenv: cannot rehash: $PROTOTYPE_SHIM_PATH exists"
   else
-    echo "rbenv: cannot rehash: $SHIM_PATH isn't writable"
+    echo "goenv: cannot rehash: $SHIM_PATH isn't writable"
   fi
   exit 1
 } >&2
@@ -35,7 +35,7 @@ remove_prototype_shim() {
 }
 
 # The prototype shim file is a script that re-execs itself, passing
-# its filename and any arguments to `rbenv exec`. This file is
+# its filename and any arguments to `goenv exec`. This file is
 # hard-linked for every executable and then removed. The linking
 # technique is fast, uses less disk space than unique files, and also
 # serves as a locking mechanism.
@@ -61,13 +61,13 @@ if [ "\$program" = "ruby" ]; then
 fi
 
 export GOENV_ROOT="$GOENV_ROOT"
-exec "$(command -v rbenv)" exec "\$program" "\$@"
+exec "$(command -v goenv)" exec "\$program" "\$@"
 SH
   chmod +x "$PROTOTYPE_SHIM_PATH"
 }
 
 # If the contents of the prototype shim file differ from the contents
-# of the first shim in the shims directory, assume rbenv has been
+# of the first shim in the shims directory, assume goenv has been
 # upgraded and the existing shims need to be removed.
 remove_outdated_shims() {
   for shim in *; do
@@ -145,7 +145,7 @@ cd "$OLDPWD"
 
 # Allow plugins to register shims.
 OLDIFS="$IFS"
-IFS=$'\n' scripts=(`rbenv-hooks rehash`)
+IFS=$'\n' scripts=(`goenv-hooks rehash`)
 IFS="$OLDIFS"
 
 for script in "${scripts[@]}"; do

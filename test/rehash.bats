@@ -11,7 +11,7 @@ create_executable() {
 
 @test "empty rehash" {
   assert [ ! -d "${GOENV_ROOT}/shims" ]
-  run rbenv-rehash
+  run goenv-rehash
   assert_success ""
   assert [ -d "${GOENV_ROOT}/shims" ]
   rmdir "${GOENV_ROOT}/shims"
@@ -20,15 +20,15 @@ create_executable() {
 @test "non-writable shims directory" {
   mkdir -p "${GOENV_ROOT}/shims"
   chmod -w "${GOENV_ROOT}/shims"
-  run rbenv-rehash
-  assert_failure "rbenv: cannot rehash: ${GOENV_ROOT}/shims isn't writable"
+  run goenv-rehash
+  assert_failure "goenv: cannot rehash: ${GOENV_ROOT}/shims isn't writable"
 }
 
 @test "rehash in progress" {
   mkdir -p "${GOENV_ROOT}/shims"
-  touch "${GOENV_ROOT}/shims/.rbenv-shim"
-  run rbenv-rehash
-  assert_failure "rbenv: cannot rehash: ${GOENV_ROOT}/shims/.rbenv-shim exists"
+  touch "${GOENV_ROOT}/shims/.goenv-shim"
+  run goenv-rehash
+  assert_failure "goenv: cannot rehash: ${GOENV_ROOT}/shims/.goenv-shim exists"
 }
 
 @test "creates shims" {
@@ -41,7 +41,7 @@ create_executable() {
   assert [ ! -e "${GOENV_ROOT}/shims/rake" ]
   assert [ ! -e "${GOENV_ROOT}/shims/rspec" ]
 
-  run rbenv-rehash
+  run goenv-rehash
   assert_success ""
 
   run ls "${GOENV_ROOT}/shims"
@@ -61,7 +61,7 @@ OUT
   create_executable "2.0" "rake"
   create_executable "2.0" "ruby"
 
-  run rbenv-rehash
+  run goenv-rehash
   assert_success ""
 
   assert [ ! -e "${GOENV_ROOT}/shims/oldshim1" ]
@@ -74,7 +74,7 @@ OUT
   assert [ ! -e "${GOENV_ROOT}/shims/ruby" ]
   assert [ ! -e "${GOENV_ROOT}/shims/rspec" ]
 
-  run rbenv-rehash
+  run goenv-rehash
   assert_success ""
 
   run ls "${GOENV_ROOT}/shims"
@@ -86,7 +86,7 @@ OUT
 }
 
 @test "carries original IFS within hooks" {
-  hook_path="${RBENV_TEST_DIR}/rbenv.d"
+  hook_path="${RBENV_TEST_DIR}/goenv.d"
   mkdir -p "${hook_path}/rehash"
   cat > "${hook_path}/rehash/hello.bash" <<SH
 hellos=(\$(printf "hello\\tugly world\\nagain"))
@@ -94,21 +94,21 @@ echo HELLO="\$(printf ":%s" "\${hellos[@]}")"
 exit
 SH
 
-  RBENV_HOOK_PATH="$hook_path" IFS=$' \t\n' run rbenv-rehash
+  RBENV_HOOK_PATH="$hook_path" IFS=$' \t\n' run goenv-rehash
   assert_success
   assert_output "HELLO=:hello:ugly:world:again"
 }
 
 @test "sh-rehash in bash" {
   create_executable "2.0" "ruby"
-  RBENV_SHELL=bash run rbenv-sh-rehash
+  RBENV_SHELL=bash run goenv-sh-rehash
   assert_success "hash -r 2>/dev/null || true"
   assert [ -x "${GOENV_ROOT}/shims/ruby" ]
 }
 
 @test "sh-rehash in fish" {
   create_executable "2.0" "ruby"
-  RBENV_SHELL=fish run rbenv-sh-rehash
+  RBENV_SHELL=fish run goenv-sh-rehash
   assert_success ""
   assert [ -x "${GOENV_ROOT}/shims/ruby" ]
 }

@@ -3,7 +3,7 @@
 load test_helper
 
 @test "no shims" {
-  run rbenv-shims
+  run goenv-shims
   assert_success
   assert [ -z "$output" ]
 }
@@ -12,7 +12,7 @@ load test_helper
   mkdir -p "${GOENV_ROOT}/shims"
   touch "${GOENV_ROOT}/shims/ruby"
   touch "${GOENV_ROOT}/shims/irb"
-  run rbenv-shims
+  run goenv-shims
   assert_success
   assert_line "${GOENV_ROOT}/shims/ruby"
   assert_line "${GOENV_ROOT}/shims/irb"
@@ -22,7 +22,7 @@ load test_helper
   mkdir -p "${GOENV_ROOT}/shims"
   touch "${GOENV_ROOT}/shims/ruby"
   touch "${GOENV_ROOT}/shims/irb"
-  run rbenv-shims --short
+  run goenv-shims --short
   assert_success
   assert_line "irb"
   assert_line "ruby"

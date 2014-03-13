@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Summary: Display the version of rbenv
+# Summary: Display the version of goenv
 #
-# Displays the version number of this rbenv release, including the
+# Displays the version number of this goenv release, including the
 # current revision from git, if available.
 #
 # The format of the git revision is:
@@ -19,4 +19,4 @@ if cd "$GOENV_ROOT" 2>/dev/null; then
   git_revision="${git_revision#v}"
 fi
 
-echo "rbenv ${git_revision:-$version}"
+echo "goenv ${git_revision:-$version}"

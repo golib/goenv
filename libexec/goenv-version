@@ -2,10 +2,10 @@
 # Summary: Show the current Ruby version and its origin
 #
 # Shows the currently selected Ruby version and how it was
-# selected. To obtain only the version string, use `rbenv
+# selected. To obtain only the version string, use `goenv
 # version-name'.
 
 set -e
 [ -n "$GOENV_DEBUG" ] && set -x
 
-echo "$(rbenv-version-name) (set by $(rbenv-version-origin))"
+echo "$(goenv-version-name) (set by $(goenv-version-origin))"

@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+#
+# Summary: Set or show the global Ruby version
+#
+# Usage: goenv global <version>
+#
+# Sets the global Ruby version. You can override the global version at
+# any time by setting a directory-specific version with `goenv local'
+# or by setting the `RBENV_VERSION' environment variable.
+#
+# <version> should be a string matching a Ruby version known to goenv.
+# The special version string `system' will use your default system Ruby.
+# Run `goenv versions' for a list of available Ruby versions.
+
+set -e
+[ -n "$GOENV_DEBUG" ] && set -x
+
+# Provide goenv completions
+if [ "$1" = "--complete" ]; then
+  echo system
+  exec goenv-versions --bare
+fi
+
+RBENV_VERSION="$1"
+RBENV_VERSION_FILE="${GOENV_ROOT}/version"
+
+if [ -n "$RBENV_VERSION" ]; then
+  goenv-version-file-write "$RBENV_VERSION_FILE" "$RBENV_VERSION"
+else
+  goenv-version-file-read "$RBENV_VERSION_FILE" ||
+  goenv-version-file-read "${GOENV_ROOT}/global" ||
+  goenv-version-file-read "${GOENV_ROOT}/default" ||
+  echo system
+fi

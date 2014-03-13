@@ -2,17 +2,17 @@
 #
 # Summary: Display the full path to an executable
 #
-# Usage: rbenv which <command>
+# Usage: goenv which <command>
 #
-# Displays the full path to the executable that rbenv will invoke when
+# Displays the full path to the executable that goenv will invoke when
 # you run the given command.
 
 set -e
 [ -n "$GOENV_DEBUG" ] && set -x
 
-# Provide rbenv completions
+# Provide goenv completions
 if [ "$1" = "--complete" ]; then
-  exec rbenv shims --short
+  exec goenv shims --short
 fi
 
 expand_path() {
@@ -48,11 +48,11 @@ remove_from_path() {
   echo "${result%:}"
 }
 
-RBENV_VERSION="$(rbenv-version-name)"
+RBENV_VERSION="$(goenv-version-name)"
 RBENV_COMMAND="$1"
 
 if [ -z "$RBENV_COMMAND" ]; then
-  rbenv-help --usage which >&2
+  goenv-help --usage which >&2
   exit 1
 fi
 
@@ -64,7 +64,7 @@ else
 fi
 
 OLDIFS="$IFS"
-IFS=$'\n' scripts=(`rbenv-hooks which`)
+IFS=$'\n' scripts=(`goenv-hooks which`)
 IFS="$OLDIFS"
 for script in "${scripts[@]}"; do
   source "$script"
@@ -73,9 +73,9 @@ done
 if [ -x "$RBENV_COMMAND_PATH" ]; then
   echo "$RBENV_COMMAND_PATH"
 else
-  echo "rbenv: $RBENV_COMMAND: command not found" >&2
+  echo "goenv: $RBENV_COMMAND: command not found" >&2
 
-  versions="$(rbenv-whence "$RBENV_COMMAND" || true)"
+  versions="$(goenv-whence "$RBENV_COMMAND" || true)"
   if [ -n "$versions" ]; then
     { echo
       echo "The \`$1' command exists in these Ruby versions:"

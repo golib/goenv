@@ -2,13 +2,13 @@
 #
 # Summary: Run an executable with the selected Ruby version
 #
-# Usage: rbenv exec <command> [arg1 arg2...]
+# Usage: goenv exec <command> [arg1 arg2...]
 #
 # Runs an executable by first preparing PATH so that the selected Ruby
 # version's `bin' directory is at the front.
 #
 # For example, if the currently selected Ruby version is 1.9.3-p327:
-#   rbenv exec bundle install
+#   goenv exec bundle install
 #
 # is equivalent to:
 #   PATH="$GOENV_ROOT/versions/1.9.3-p327/bin:$PATH" bundle install
@@ -16,25 +16,25 @@
 set -e
 [ -n "$GOENV_DEBUG" ] && set -x
 
-# Provide rbenv completions
+# Provide goenv completions
 if [ "$1" = "--complete" ]; then
-  exec rbenv shims --short
+  exec goenv shims --short
 fi
 
-RBENV_VERSION="$(rbenv-version-name)"
+RBENV_VERSION="$(goenv-version-name)"
 RBENV_COMMAND="$1"
 
 if [ -z "$RBENV_COMMAND" ]; then
-  rbenv-help --usage exec >&2
+  goenv-help --usage exec >&2
   exit 1
 fi
 
 export RBENV_VERSION
-RBENV_COMMAND_PATH="$(rbenv-which "$RBENV_COMMAND")"
+RBENV_COMMAND_PATH="$(goenv-which "$RBENV_COMMAND")"
 RBENV_BIN_PATH="${RBENV_COMMAND_PATH%/*}"
 
 OLDIFS="$IFS"
-IFS=$'\n' scripts=(`rbenv-hooks exec`)
+IFS=$'\n' scripts=(`goenv-hooks exec`)
 IFS="$OLDIFS"
 for script in "${scripts[@]}"; do
   source "$script"

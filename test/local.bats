@@ -9,33 +9,33 @@ setup() {
 
 @test "no version" {
   assert [ ! -e "${PWD}/.ruby-version" ]
-  run rbenv-local
-  assert_failure "rbenv: no local version configured for this directory"
+  run goenv-local
+  assert_failure "goenv: no local version configured for this directory"
 }
 
 @test "local version" {
   echo "1.2.3" > .ruby-version
-  run rbenv-local
+  run goenv-local
   assert_success "1.2.3"
 }
 
-@test "supports legacy .rbenv-version file" {
-  echo "1.2.3" > .rbenv-version
-  run rbenv-local
+@test "supports legacy .goenv-version file" {
+  echo "1.2.3" > .goenv-version
+  run goenv-local
   assert_success "1.2.3"
 }
 
-@test "local .ruby-version has precedence over .rbenv-version" {
-  echo "1.8" > .rbenv-version
+@test "local .ruby-version has precedence over .goenv-version" {
+  echo "1.8" > .goenv-version
   echo "2.0" > .ruby-version
-  run rbenv-local
+  run goenv-local
   assert_success "2.0"
 }
 
 @test "ignores version in parent directory" {
   echo "1.2.3" > .ruby-version
   mkdir -p "subdir" && cd "subdir"
-  run rbenv-local
+  run goenv-local
   assert_failure
 }
 
@@ -43,13 +43,13 @@ setup() {
   echo "1.2.3" > .ruby-version
   mkdir -p "$HOME"
   echo "2.0-home" > "${HOME}/.ruby-version"
-  GOENV_DIR="$HOME" run rbenv-local
+  GOENV_DIR="$HOME" run goenv-local
   assert_success "1.2.3"
 }
 
 @test "sets local version" {
   mkdir -p "${GOENV_ROOT}/versions/1.2.3"
-  run rbenv-local 1.2.3
+  run goenv-local 1.2.3
   assert_success ""
   assert [ "$(cat .ruby-version)" = "1.2.3" ]
 }
@@ -57,47 +57,47 @@ setup() {
 @test "changes local version" {
   echo "1.0-pre" > .ruby-version
   mkdir -p "${GOENV_ROOT}/versions/1.2.3"
-  run rbenv-local
+  run goenv-local
   assert_success "1.0-pre"
-  run rbenv-local 1.2.3
+  run goenv-local 1.2.3
   assert_success ""
   assert [ "$(cat .ruby-version)" = "1.2.3" ]
 }
 
-@test "renames .rbenv-version to .ruby-version" {
-  echo "1.8.7" > .rbenv-version
+@test "renames .goenv-version to .ruby-version" {
+  echo "1.8.7" > .goenv-version
   mkdir -p "${GOENV_ROOT}/versions/1.9.3"
-  run rbenv-local
+  run goenv-local
   assert_success "1.8.7"
-  run rbenv-local "1.9.3"
+  run goenv-local "1.9.3"
   assert_success
   assert_output <<OUT
-rbenv: removed existing \`.rbenv-version' file and migrated
+goenv: removed existing \`.goenv-version' file and migrated
        local version specification to \`.ruby-version' file
 OUT
-  assert [ ! -e .rbenv-version ]
+  assert [ ! -e .goenv-version ]
   assert [ "$(cat .ruby-version)" = "1.9.3" ]
 }
 
-@test "doesn't rename .rbenv-version if changing the version failed" {
-  echo "1.8.7" > .rbenv-version
+@test "doesn't rename .goenv-version if changing the version failed" {
+  echo "1.8.7" > .goenv-version
   assert [ ! -e "${GOENV_ROOT}/versions/1.9.3" ]
-  run rbenv-local "1.9.3"
-  assert_failure "rbenv: version \`1.9.3' not installed"
+  run goenv-local "1.9.3"
+  assert_failure "goenv: version \`1.9.3' not installed"
   assert [ ! -e .ruby-version ]
-  assert [ "$(cat .rbenv-version)" = "1.8.7" ]
+  assert [ "$(cat .goenv-version)" = "1.8.7" ]
 }
 
 @test "unsets local version" {
   touch .ruby-version
-  run rbenv-local --unset
+  run goenv-local --unset
   assert_success ""
-  assert [ ! -e .rbenv-version ]
+  assert [ ! -e .goenv-version ]
 }
 
 @test "unsets alternate version file" {
-  touch .rbenv-version
-  run rbenv-local --unset
+  touch .goenv-version
+  run goenv-local --unset
   assert_success ""
-  assert [ ! -e .rbenv-version ]
+  assert [ ! -e .goenv-version ]
 }

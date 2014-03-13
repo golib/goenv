@@ -3,31 +3,31 @@
 load test_helper
 
 @test "without args shows summary of common commands" {
-  run rbenv-help
+  run goenv-help
   assert_success
-  assert_line "Usage: rbenv <command> [<args>]"
-  assert_line "Some useful rbenv commands are:"
+  assert_line "Usage: goenv <command> [<args>]"
+  assert_line "Some useful goenv commands are:"
 }
 
 @test "invalid command" {
-  run rbenv-help hello
-  assert_failure "rbenv: no such command \`hello'"
+  run goenv-help hello
+  assert_failure "goenv: no such command \`hello'"
 }
 
 @test "shows help for a specific command" {
   mkdir -p "${RBENV_TEST_DIR}/bin"
-  cat > "${RBENV_TEST_DIR}/bin/rbenv-hello" <<SH
+  cat > "${RBENV_TEST_DIR}/bin/goenv-hello" <<SH
 #!shebang
-# Usage: rbenv hello <world>
-# Summary: Says "hello" to you, from rbenv
+# Usage: goenv hello <world>
+# Summary: Says "hello" to you, from goenv
 # This command is useful for saying hello.
 echo hello
 SH
 
-  run rbenv-help hello
+  run goenv-help hello
   assert_success
   assert_output <<SH
-Usage: rbenv hello <world>
+Usage: goenv hello <world>
 
 This command is useful for saying hello.
 SH
@@ -35,54 +35,54 @@ SH
 
 @test "replaces missing extended help with summary text" {
   mkdir -p "${RBENV_TEST_DIR}/bin"
-  cat > "${RBENV_TEST_DIR}/bin/rbenv-hello" <<SH
+  cat > "${RBENV_TEST_DIR}/bin/goenv-hello" <<SH
 #!shebang
-# Usage: rbenv hello <world>
-# Summary: Says "hello" to you, from rbenv
+# Usage: goenv hello <world>
+# Summary: Says "hello" to you, from goenv
 echo hello
 SH
 
-  run rbenv-help hello
+  run goenv-help hello
   assert_success
   assert_output <<SH
-Usage: rbenv hello <world>
+Usage: goenv hello <world>
 
-Says "hello" to you, from rbenv
+Says "hello" to you, from goenv
 SH
 }
 
 @test "extracts only usage" {
   mkdir -p "${RBENV_TEST_DIR}/bin"
-  cat > "${RBENV_TEST_DIR}/bin/rbenv-hello" <<SH
+  cat > "${RBENV_TEST_DIR}/bin/goenv-hello" <<SH
 #!shebang
-# Usage: rbenv hello <world>
-# Summary: Says "hello" to you, from rbenv
+# Usage: goenv hello <world>
+# Summary: Says "hello" to you, from goenv
 # This extended help won't be shown.
 echo hello
 SH
 
-  run rbenv-help --usage hello
-  assert_success "Usage: rbenv hello <world>"
+  run goenv-help --usage hello
+  assert_success "Usage: goenv hello <world>"
 }
 
 @test "multiline usage section" {
   mkdir -p "${RBENV_TEST_DIR}/bin"
-  cat > "${RBENV_TEST_DIR}/bin/rbenv-hello" <<SH
+  cat > "${RBENV_TEST_DIR}/bin/goenv-hello" <<SH
 #!shebang
-# Usage: rbenv hello <world>
-#        rbenv hi [everybody]
-#        rbenv hola --translate
-# Summary: Says "hello" to you, from rbenv
+# Usage: goenv hello <world>
+#        goenv hi [everybody]
+#        goenv hola --translate
+# Summary: Says "hello" to you, from goenv
 # Help text.
 echo hello
 SH
 
-  run rbenv-help hello
+  run goenv-help hello
   assert_success
   assert_output <<SH
-Usage: rbenv hello <world>
-       rbenv hi [everybody]
-       rbenv hola --translate
+Usage: goenv hello <world>
+       goenv hi [everybody]
+       goenv hola --translate
 
 Help text.
 SH
@@ -90,10 +90,10 @@ SH
 
 @test "multiline extended help section" {
   mkdir -p "${RBENV_TEST_DIR}/bin"
-  cat > "${RBENV_TEST_DIR}/bin/rbenv-hello" <<SH
+  cat > "${RBENV_TEST_DIR}/bin/goenv-hello" <<SH
 #!shebang
-# Usage: rbenv hello <world>
-# Summary: Says "hello" to you, from rbenv
+# Usage: goenv hello <world>
+# Summary: Says "hello" to you, from goenv
 # This is extended help text.
 # It can contain multiple lines.
 #
@@ -102,10 +102,10 @@ SH
 echo hello
 SH
 
-  run rbenv-help hello
+  run goenv-help hello
   assert_success
   assert_output <<SH
-Usage: rbenv hello <world>
+Usage: goenv hello <world>
 
 This is extended help text.
 It can contain multiple lines.

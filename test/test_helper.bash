@@ -1,7 +1,7 @@
 unset RBENV_VERSION
 unset GOENV_DIR
 
-RBENV_TEST_DIR="${BATS_TMPDIR}/rbenv"
+RBENV_TEST_DIR="${BATS_TMPDIR}/goenv"
 
 # guard against executing this block twice due to bats internals
 if [ "$GOENV_ROOT" != "${RBENV_TEST_DIR}/root" ]; then
@@ -95,7 +95,7 @@ assert() {
 }
 
 # Output a modified PATH that ensures that the given executable is not present,
-# but in which system utils necessary for rbenv operation are still available.
+# but in which system utils necessary for goenv operation are still available.
 path_without() {
   local exe="$1"
   local path="${PATH}:"

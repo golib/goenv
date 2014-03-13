@@ -14,9 +14,9 @@ git_commit() {
 
 @test "default version" {
   assert [ ! -e "$GOENV_ROOT" ]
-  run rbenv---version
+  run goenv---version
   assert_success
-  [[ $output == "rbenv 0."* ]]
+  [[ $output == "goenv 0."* ]]
 }
 
 @test "reads version from git repo" {
@@ -29,9 +29,9 @@ git_commit() {
   git_commit
 
   cd "$RBENV_TEST_DIR"
-  run rbenv---version
+  run goenv---version
   assert_success
-  [[ $output == "rbenv 0.4.1-2-g"* ]]
+  [[ $output == "goenv 0.4.1-2-g"* ]]
 }
 
 @test "prints default version if no tags in git repo" {
@@ -41,6 +41,6 @@ git_commit() {
   git_commit
 
   cd "$RBENV_TEST_DIR"
-  run rbenv---version
-  [[ $output == "rbenv 0."* ]]
+  run goenv---version
+  [[ $output == "goenv 0."* ]]
 }

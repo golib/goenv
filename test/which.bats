@@ -16,10 +16,10 @@ create_executable() {
   create_executable "1.8" "ruby"
   create_executable "2.0" "rspec"
 
-  RBENV_VERSION=1.8 run rbenv-which ruby
+  RBENV_VERSION=1.8 run goenv-which ruby
   assert_success "${GOENV_ROOT}/versions/1.8/bin/ruby"
 
-  RBENV_VERSION=2.0 run rbenv-which rspec
+  RBENV_VERSION=2.0 run goenv-which rspec
   assert_success "${GOENV_ROOT}/versions/2.0/bin/rspec"
 }
 
@@ -27,20 +27,20 @@ create_executable() {
   create_executable "${RBENV_TEST_DIR}/bin" "kill-all-humans"
   create_executable "${GOENV_ROOT}/shims" "kill-all-humans"
 
-  RBENV_VERSION=system run rbenv-which kill-all-humans
+  RBENV_VERSION=system run goenv-which kill-all-humans
   assert_success "${RBENV_TEST_DIR}/bin/kill-all-humans"
 }
 
 @test "version not installed" {
   create_executable "2.0" "rspec"
-  RBENV_VERSION=1.9 run rbenv-which rspec
-  assert_failure "rbenv: version \`1.9' is not installed"
+  RBENV_VERSION=1.9 run goenv-which rspec
+  assert_failure "goenv: version \`1.9' is not installed"
 }
 
 @test "no executable found" {
   create_executable "1.8" "rspec"
-  RBENV_VERSION=1.8 run rbenv-which rake
-  assert_failure "rbenv: rake: command not found"
+  RBENV_VERSION=1.8 run goenv-which rake
+  assert_failure "goenv: rake: command not found"
 }
 
 @test "executable found in other versions" {
@@ -48,10 +48,10 @@ create_executable() {
   create_executable "1.9" "rspec"
   create_executable "2.0" "rspec"
 
-  RBENV_VERSION=1.8 run rbenv-which rspec
+  RBENV_VERSION=1.8 run goenv-which rspec
   assert_failure
   assert_output <<OUT
-rbenv: rspec: command not found
+goenv: rspec: command not found
 
 The \`rspec' command exists in these Ruby versions:
   1.9
@@ -60,7 +60,7 @@ OUT
 }
 
 @test "carries original IFS within hooks" {
-  hook_path="${RBENV_TEST_DIR}/rbenv.d"
+  hook_path="${RBENV_TEST_DIR}/goenv.d"
   mkdir -p "${hook_path}/which"
   cat > "${hook_path}/which/hello.bash" <<SH
 hellos=(\$(printf "hello\\tugly world\\nagain"))
@@ -68,7 +68,7 @@ echo HELLO="\$(printf ":%s" "\${hellos[@]}")"
 exit
 SH
 
-  RBENV_HOOK_PATH="$hook_path" IFS=$' \t\n' run rbenv-which anything
+  RBENV_HOOK_PATH="$hook_path" IFS=$' \t\n' run goenv-which anything
   assert_success
   assert_output "HELLO=:hello:ugly:world:again"
 }

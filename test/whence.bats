@@ -15,16 +15,16 @@ create_executable() {
   create_executable "2.0" "ruby"
   create_executable "2.0" "rspec"
 
-  run rbenv-whence ruby
+  run goenv-whence ruby
   assert_success
   assert_output <<OUT
 1.8
 2.0
 OUT
 
-  run rbenv-whence rake
+  run goenv-whence rake
   assert_success "1.8"
 
-  run rbenv-whence rspec
+  run goenv-whence rspec
   assert_success "2.0"
 }
