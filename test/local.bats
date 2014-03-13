@@ -39,11 +39,11 @@ setup() {
   assert_failure
 }
 
-@test "ignores RBENV_DIR" {
+@test "ignores GOENV_DIR" {
   echo "1.2.3" > .ruby-version
   mkdir -p "$HOME"
   echo "2.0-home" > "${HOME}/.ruby-version"
-  RBENV_DIR="$HOME" run rbenv-local
+  GOENV_DIR="$HOME" run rbenv-local
   assert_success "1.2.3"
 }
 

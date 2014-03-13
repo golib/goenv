@@ -82,18 +82,18 @@ create_file() {
   assert_success "${RBENV_TEST_DIR}/project/.rbenv-version"
 }
 
-@test "RBENV_DIR has precedence over PWD" {
+@test "GOENV_DIR has precedence over PWD" {
   create_file "widget/.ruby-version"
   create_file "project/.ruby-version"
   cd project
-  RBENV_DIR="${RBENV_TEST_DIR}/widget" run rbenv-version-file
+  GOENV_DIR="${RBENV_TEST_DIR}/widget" run rbenv-version-file
   assert_success "${RBENV_TEST_DIR}/widget/.ruby-version"
 }
 
-@test "PWD is searched if RBENV_DIR yields no results" {
+@test "PWD is searched if GOENV_DIR yields no results" {
   mkdir -p "widget/blank"
   create_file "project/.ruby-version"
   cd project
-  RBENV_DIR="${RBENV_TEST_DIR}/widget/blank" run rbenv-version-file
+  GOENV_DIR="${RBENV_TEST_DIR}/widget/blank" run rbenv-version-file
   assert_success "${RBENV_TEST_DIR}/project/.ruby-version"
 }

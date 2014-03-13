@@ -52,7 +52,7 @@ if [ "\$program" = "ruby" ]; then
     -e* | -- ) break ;;
     */* )
       if [ -f "\$arg" ]; then
-        export RBENV_DIR="\${arg%/*}"
+        export GOENV_DIR="\${arg%/*}"
         break
       fi
       ;;

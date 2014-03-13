@@ -483,7 +483,7 @@ tracker](https://github.com/sstephenson/rbenv/issues).
 * Added preliminary support for ksh.
 * `rbenv rehash` creates or removes shims only when necessary instead
   of removing and re-creating all shims on each invocation.
-* Fixed that `RBENV_DIR`, when specified, would be incorrectly
+* Fixed that `GOENV_DIR`, when specified, would be incorrectly
   expanded to its parent directory.
 * Removed the deprecated `set-default` and `set-local` commands.
 * Added a `--no-rehash` option to `rbenv init` for skipping the
@@ -491,7 +491,7 @@ tracker](https://github.com/sstephenson/rbenv/issues).
 
 **0.2.1** (October 1, 2011)
 
-* Changed the `rbenv` command to ensure that `RBENV_DIR` is always an
+* Changed the `rbenv` command to ensure that `GOENV_DIR` is always an
   absolute path. This fixes an issue where Ruby scripts using the
   `ruby-local-exec` wrapper would go into an infinite loop when
   invoked with a relative path from the command line.
@@ -520,7 +520,7 @@ tracker](https://github.com/sstephenson/rbenv/issues).
   in [issue #102](https://github.com/sstephenson/rbenv/pull/102).
 * Added `/usr/local/etc/rbenv.d` to the list of directories searched
   for rbenv hooks.
-* Added support for an `$RBENV_DIR` environment variable which
+* Added support for an `$GOENV_DIR` environment variable which
   defaults to the current working directory for specifying where rbenv
   searches for local version files.
 

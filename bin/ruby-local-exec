@@ -12,7 +12,7 @@
 # `cd` into the project first.
 
 set -e
-export RBENV_DIR="${1%/*}"
+export GOENV_DIR="${1%/*}"
 
 [ -n "$RBENV_SILENCE_WARNINGS" ] || {
   echo "rbenv: \`ruby-local-exec' is deprecated and will be removed in the next release."

@@ -43,17 +43,17 @@ else
 fi
 export GOENV_ROOT
 
-if [ -z "${RBENV_DIR}" ]; then
-  RBENV_DIR="$(pwd)"
+if [ -z "${GOENV_DIR}" ]; then
+  GOENV_DIR="$(pwd)"
 else
-  cd "$RBENV_DIR" 2>/dev/null || {
-    echo "rbenv: cannot change working directory to \`$RBENV_DIR'"
+  cd "$GOENV_DIR" 2>/dev/null || {
+    echo "rbenv: cannot change working directory to \`$GOENV_DIR'"
     exit 1
   } >&2
-  RBENV_DIR="$(pwd)"
+  GOENV_DIR="$(pwd)"
   cd "$OLDPWD"
 fi
-export RBENV_DIR
+export GOENV_DIR
 
 
 shopt -s nullglob

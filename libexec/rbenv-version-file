@@ -17,8 +17,8 @@ find_local_version_file() {
   done
 }
 
-find_local_version_file "$RBENV_DIR"
-[ "$RBENV_DIR" = "$PWD" ] || find_local_version_file "$PWD"
+find_local_version_file "$GOENV_DIR"
+[ "$GOENV_DIR" = "$PWD" ] || find_local_version_file "$PWD"
 
 global_version_file="${GOENV_ROOT}/version"
 
