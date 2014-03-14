@@ -10,20 +10,20 @@ load test_helper
 
 @test "shims" {
   mkdir -p "${GOENV_ROOT}/shims"
-  touch "${GOENV_ROOT}/shims/ruby"
-  touch "${GOENV_ROOT}/shims/irb"
+  touch "${GOENV_ROOT}/shims/go"
+  touch "${GOENV_ROOT}/shims/fix"
   run goenv-shims
   assert_success
-  assert_line "${GOENV_ROOT}/shims/ruby"
-  assert_line "${GOENV_ROOT}/shims/irb"
+  assert_line "${GOENV_ROOT}/shims/go"
+  assert_line "${GOENV_ROOT}/shims/fix"
 }
 
 @test "shims --short" {
   mkdir -p "${GOENV_ROOT}/shims"
-  touch "${GOENV_ROOT}/shims/ruby"
-  touch "${GOENV_ROOT}/shims/irb"
+  touch "${GOENV_ROOT}/shims/go"
+  touch "${GOENV_ROOT}/shims/fix"
   run goenv-shims --short
   assert_success
-  assert_line "irb"
-  assert_line "ruby"
+  assert_line "fix"
+  assert_line "go"
 }

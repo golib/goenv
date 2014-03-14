@@ -28,7 +28,7 @@ git_commit() {
   git_commit
   git_commit
 
-  cd "$RBENV_TEST_DIR"
+  cd "$GOENV_TEST_DIR"
   run goenv---version
   assert_success
   [[ $output == "goenv 0.4.1-2-g"* ]]
@@ -40,7 +40,7 @@ git_commit() {
   git init
   git_commit
 
-  cd "$RBENV_TEST_DIR"
+  cd "$GOENV_TEST_DIR"
   run goenv---version
   [[ $output == "goenv 0."* ]]
 }

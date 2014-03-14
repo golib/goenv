@@ -15,8 +15,8 @@ load test_helper
 }
 
 @test "shows help for a specific command" {
-  mkdir -p "${RBENV_TEST_DIR}/bin"
-  cat > "${RBENV_TEST_DIR}/bin/goenv-hello" <<SH
+  mkdir -p "${GOENV_TEST_DIR}/bin"
+  cat > "${GOENV_TEST_DIR}/bin/goenv-hello" <<SH
 #!shebang
 # Usage: goenv hello <world>
 # Summary: Says "hello" to you, from goenv
@@ -34,8 +34,8 @@ SH
 }
 
 @test "replaces missing extended help with summary text" {
-  mkdir -p "${RBENV_TEST_DIR}/bin"
-  cat > "${RBENV_TEST_DIR}/bin/goenv-hello" <<SH
+  mkdir -p "${GOENV_TEST_DIR}/bin"
+  cat > "${GOENV_TEST_DIR}/bin/goenv-hello" <<SH
 #!shebang
 # Usage: goenv hello <world>
 # Summary: Says "hello" to you, from goenv
@@ -52,8 +52,8 @@ SH
 }
 
 @test "extracts only usage" {
-  mkdir -p "${RBENV_TEST_DIR}/bin"
-  cat > "${RBENV_TEST_DIR}/bin/goenv-hello" <<SH
+  mkdir -p "${GOENV_TEST_DIR}/bin"
+  cat > "${GOENV_TEST_DIR}/bin/goenv-hello" <<SH
 #!shebang
 # Usage: goenv hello <world>
 # Summary: Says "hello" to you, from goenv
@@ -66,8 +66,8 @@ SH
 }
 
 @test "multiline usage section" {
-  mkdir -p "${RBENV_TEST_DIR}/bin"
-  cat > "${RBENV_TEST_DIR}/bin/goenv-hello" <<SH
+  mkdir -p "${GOENV_TEST_DIR}/bin"
+  cat > "${GOENV_TEST_DIR}/bin/goenv-hello" <<SH
 #!shebang
 # Usage: goenv hello <world>
 #        goenv hi [everybody]
@@ -89,8 +89,8 @@ SH
 }
 
 @test "multiline extended help section" {
-  mkdir -p "${RBENV_TEST_DIR}/bin"
-  cat > "${RBENV_TEST_DIR}/bin/goenv-hello" <<SH
+  mkdir -p "${GOENV_TEST_DIR}/bin"
+  cat > "${GOENV_TEST_DIR}/bin/goenv-hello" <<SH
 #!shebang
 # Usage: goenv hello <world>
 # Summary: Says "hello" to you, from goenv

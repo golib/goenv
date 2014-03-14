@@ -36,20 +36,12 @@ fi
 GOENV_VERSION="$1"
 
 if [ "$GOENV_VERSION" = "--unset" ]; then
-  rm -f .go-version .goenv-version
+  rm -f .go-version
 elif [ -n "$GOENV_VERSION" ]; then
-  previous_file="$(GOENV_VERSION= goenv-version-origin || true)"
   goenv-version-file-write .go-version "$GOENV_VERSION"
-  if [ "$previous_file" -ef .goenv-version ]; then
-    rm -f .goenv-version
-    { echo "goenv: removed existing \`.goenv-version' file and migrated"
-      echo "       local version specification to \`.go-version' file"
-    } >&2
-  fi
 else
   goenv-version-file-read .go-version ||
-  goenv-version-file-read .goenv-version ||
-  { echo "goenv: no local version configured for this directory"
+  { echo "goenv: no local version configured for current directory"
     exit 1
   } >&2
 fi

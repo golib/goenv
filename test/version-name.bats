@@ -7,8 +7,8 @@ create_version() {
 }
 
 setup() {
-  mkdir -p "$RBENV_TEST_DIR"
-  cd "$RBENV_TEST_DIR"
+  mkdir -p "$GOENV_TEST_DIR"
+  cd "$GOENV_TEST_DIR"
 }
 
 @test "no version selected" {
@@ -23,28 +23,28 @@ setup() {
 }
 
 @test "GOENV_VERSION has precedence over local" {
-  create_version "1.8.7"
-  create_version "1.9.3"
+  create_version "1.2"
+  create_version "1.2.1"
 
-  cat > ".go-version" <<<"1.8.7"
+  cat > ".go-version" <<<"1.2"
   run goenv-version-name
-  assert_success "1.8.7"
+  assert_success "1.2"
 
-  GOENV_VERSION=1.9.3 run goenv-version-name
-  assert_success "1.9.3"
+  GOENV_VERSION=1.2.1 run goenv-version-name
+  assert_success "1.2.1"
 }
 
 @test "local file has precedence over global" {
-  create_version "1.8.7"
-  create_version "1.9.3"
+  create_version "1.2"
+  create_version "1.2.1"
 
-  cat > "${GOENV_ROOT}/version" <<<"1.8.7"
+  cat > "${GOENV_ROOT}/version" <<<"1.2"
   run goenv-version-name
-  assert_success "1.8.7"
+  assert_success "1.2"
 
-  cat > ".go-version" <<<"1.9.3"
+  cat > ".go-version" <<<"1.2.1"
   run goenv-version-name
-  assert_success "1.9.3"
+  assert_success "1.2.1"
 }
 
 @test "missing version" {
@@ -53,13 +53,13 @@ setup() {
 }
 
 @test "version with prefix in name" {
-  create_version "1.8.7"
-  cat > ".go-version" <<<"ruby-1.8.7"
+  create_version "1.2"
+  cat > ".go-version" <<<"go-1.2"
   run goenv-version-name
   assert_success
   assert_output <<OUT
-warning: ignoring extraneous \`ruby-' prefix in version \`ruby-1.8.7'
+warning: ignoring extraneous \`go-' prefix in version \`go-1.2'
          (set by ${PWD}/.go-version)
-1.8.7
+1.2
 OUT
 }

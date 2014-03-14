@@ -15,27 +15,27 @@ create_executable() {
 }
 
 @test "fails with invalid version" {
-  export GOENV_VERSION="2.0"
-  run goenv-exec ruby -v
-  assert_failure "goenv: version \`2.0' is not installed"
+  export GOENV_VERSION="1.2"
+  run goenv-exec go -v
+  assert_failure "goenv: version \`1.2' is not installed"
 }
 
 @test "completes with names of executables" {
-  export GOENV_VERSION="2.0"
-  create_executable "ruby" "#!/bin/sh"
-  create_executable "rake" "#!/bin/sh"
+  export GOENV_VERSION="1.2"
+  create_executable "go" "#!/bin/sh"
+  create_executable "cover" "#!/bin/sh"
 
   goenv-rehash
   run goenv-completions exec
   assert_success
   assert_output <<OUT
-rake
-ruby
+cover
+go
 OUT
 }
 
 @test "supports hook path with spaces" {
-  hook_path="${RBENV_TEST_DIR}/custom stuff/goenv hooks"
+  hook_path="${GOENV_TEST_DIR}/custom stuff/goenv hooks"
   mkdir -p "${hook_path}/exec"
   echo "export HELLO='from hook'" > "${hook_path}/exec/hello.bash"
 
@@ -46,7 +46,7 @@ OUT
 }
 
 @test "carries original IFS within hooks" {
-  hook_path="${RBENV_TEST_DIR}/goenv.d"
+  hook_path="${GOENV_TEST_DIR}/goenv.d"
   mkdir -p "${hook_path}/exec"
   cat > "${hook_path}/exec/hello.bash" <<SH
 hellos=(\$(printf "hello\\tugly world\\nagain"))
@@ -60,8 +60,8 @@ SH
 }
 
 @test "forwards all arguments" {
-  export GOENV_VERSION="2.0"
-  create_executable "ruby" <<SH
+  export GOENV_VERSION="1.2"
+  create_executable "go" <<SH
 #!$BASH
 echo \$0
 for arg; do
@@ -70,44 +70,44 @@ for arg; do
 done
 SH
 
-  run goenv-exec ruby -w "/path to/ruby script.rb" -- extra args
+  run goenv-exec go -w "/path to/go script.rb" -- extra args
   assert_success
   assert_output <<OUT
-${GOENV_ROOT}/versions/2.0/bin/ruby
+${GOENV_ROOT}/versions/1.2/bin/go
   -w
-  /path to/ruby script.rb
+  /path to/go script.rb
   --
   extra
   args
 OUT
 }
 
-@test "supports ruby -S <cmd>" {
-  export GOENV_VERSION="2.0"
+@test "supports go -S <cmd>" {
+  export GOENV_VERSION="1.2"
 
-  # emulate `ruby -S' behavior
-  create_executable "ruby" <<SH
+  # emulate `go -S' behavior
+  create_executable "go" <<SH
 #!$BASH
 if [[ \$1 == "-S"* ]]; then
-  found="\$(PATH="\${RUBYPATH:-\$PATH}" which \$2)"
-  # assert that the found executable has ruby for shebang
-  if head -1 "\$found" | grep ruby >/dev/null; then
+  found="\$(PATH="\${GOPATH:-\$PATH}" which \$2)"
+  # assert that the found executable has go for shebang
+  if head -1 "\$found" | grep go >/dev/null; then
     \$BASH "\$found"
   else
-    echo "ruby: no Ruby script found in input (LoadError)" >&2
+    echo "go: no Golang script found in input (LoadError)" >&2
     exit 1
   fi
 else
-  echo 'ruby 2.0 (goenv test)'
+  echo 'go 1.2 (goenv test)'
 fi
 SH
 
-  create_executable "rake" <<SH
-#!/usr/bin/env ruby
-echo hello rake
+  create_executable "fix" <<SH
+#!/usr/bin/env go
+echo hello fix
 SH
 
   goenv-rehash
-  run ruby -S rake
-  assert_success "hello rake"
+  run go -S fix
+  assert_success "hello fix"
 }

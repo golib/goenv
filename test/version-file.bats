@@ -3,8 +3,8 @@
 load test_helper
 
 setup() {
-  mkdir -p "$RBENV_TEST_DIR"
-  cd "$RBENV_TEST_DIR"
+  mkdir -p "$GOENV_TEST_DIR"
+  cd "$GOENV_TEST_DIR"
 }
 
 create_file() {
@@ -42,20 +42,7 @@ create_file() {
 @test "in current directory" {
   create_file ".go-version"
   run goenv-version-file
-  assert_success "${RBENV_TEST_DIR}/.go-version"
-}
-
-@test "legacy file in current directory" {
-  create_file ".goenv-version"
-  run goenv-version-file
-  assert_success "${RBENV_TEST_DIR}/.goenv-version"
-}
-
-@test ".go-version has precedence over legacy file" {
-  create_file ".go-version"
-  create_file ".goenv-version"
-  run goenv-version-file
-  assert_success "${RBENV_TEST_DIR}/.go-version"
+  assert_success "${GOENV_TEST_DIR}/.go-version"
 }
 
 @test "in parent directory" {
@@ -63,7 +50,7 @@ create_file() {
   mkdir -p project
   cd project
   run goenv-version-file
-  assert_success "${RBENV_TEST_DIR}/.go-version"
+  assert_success "${GOENV_TEST_DIR}/.go-version"
 }
 
 @test "topmost file has precedence" {
@@ -71,29 +58,21 @@ create_file() {
   create_file "project/.go-version"
   cd project
   run goenv-version-file
-  assert_success "${RBENV_TEST_DIR}/project/.go-version"
-}
-
-@test "legacy file has precedence if higher" {
-  create_file ".go-version"
-  create_file "project/.goenv-version"
-  cd project
-  run goenv-version-file
-  assert_success "${RBENV_TEST_DIR}/project/.goenv-version"
+  assert_success "${GOENV_TEST_DIR}/project/.go-version"
 }
 
 @test "GOENV_DIR has precedence over PWD" {
   create_file "widget/.go-version"
   create_file "project/.go-version"
   cd project
-  GOENV_DIR="${RBENV_TEST_DIR}/widget" run goenv-version-file
-  assert_success "${RBENV_TEST_DIR}/widget/.go-version"
+  GOENV_DIR="${GOENV_TEST_DIR}/widget" run goenv-version-file
+  assert_success "${GOENV_TEST_DIR}/widget/.go-version"
 }
 
 @test "PWD is searched if GOENV_DIR yields no results" {
   mkdir -p "widget/blank"
   create_file "project/.go-version"
   cd project
-  GOENV_DIR="${RBENV_TEST_DIR}/widget/blank" run goenv-version-file
-  assert_success "${RBENV_TEST_DIR}/project/.go-version"
+  GOENV_DIR="${GOENV_TEST_DIR}/widget/blank" run goenv-version-file
+  assert_success "${GOENV_TEST_DIR}/project/.go-version"
 }

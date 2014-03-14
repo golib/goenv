@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Summary: Show the current Ruby version
+# Summary: Show the current Golang version
 set -e
 [ -n "$GOENV_DEBUG" ] && set -x
 
@@ -20,11 +20,11 @@ version_exists() {
 
 if version_exists "$GOENV_VERSION"; then
   echo "$GOENV_VERSION"
-elif version_exists "${GOENV_VERSION#ruby-}"; then
-  { echo "warning: ignoring extraneous \`ruby-' prefix in version \`${GOENV_VERSION}'"
+elif version_exists "${GOENV_VERSION#go-}"; then
+  { echo "warning: ignoring extraneous \`go-' prefix in version \`${GOENV_VERSION}'"
     echo "         (set by $(goenv-version-origin))"
   } >&2
-  echo "${GOENV_VERSION#ruby-}"
+  echo "${GOENV_VERSION#go-}"
 else
   echo "goenv: version \`$GOENV_VERSION' is not installed" >&2
   exit 1

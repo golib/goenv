@@ -10,21 +10,21 @@ create_executable() {
 }
 
 @test "finds versions where present" {
-  create_executable "1.8" "ruby"
-  create_executable "1.8" "rake"
-  create_executable "2.0" "ruby"
-  create_executable "2.0" "rspec"
+  create_executable "1" "go"
+  create_executable "1" "godoc"
+  create_executable "1.2" "go"
+  create_executable "1.2" "fix"
 
-  run goenv-whence ruby
+  run goenv-whence go
   assert_success
   assert_output <<OUT
-1.8
-2.0
+1
+1.2
 OUT
 
-  run goenv-whence rake
-  assert_success "1.8"
+  run goenv-whence godoc
+  assert_success "1"
 
-  run goenv-whence rspec
-  assert_success "2.0"
+  run goenv-whence fix
+  assert_success "1.2"
 }

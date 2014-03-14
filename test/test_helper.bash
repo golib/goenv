@@ -1,15 +1,15 @@
 unset GOENV_VERSION
 unset GOENV_DIR
 
-RBENV_TEST_DIR="${BATS_TMPDIR}/goenv"
+GOENV_TEST_DIR="${BATS_TMPDIR}/goenv"
 
 # guard against executing this block twice due to bats internals
-if [ "$GOENV_ROOT" != "${RBENV_TEST_DIR}/root" ]; then
-  export GOENV_ROOT="${RBENV_TEST_DIR}/root"
-  export HOME="${RBENV_TEST_DIR}/home"
+if [ "$GOENV_ROOT" != "${GOENV_TEST_DIR}/root" ]; then
+  export GOENV_ROOT="${GOENV_TEST_DIR}/root"
+  export HOME="${GOENV_TEST_DIR}/home"
 
   PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
-  PATH="${RBENV_TEST_DIR}/bin:$PATH"
+  PATH="${GOENV_TEST_DIR}/bin:$PATH"
   PATH="${BATS_TEST_DIRNAME}/../libexec:$PATH"
   PATH="${BATS_TEST_DIRNAME}/libexec:$PATH"
   PATH="${GOENV_ROOT}/shims:$PATH"
@@ -17,14 +17,14 @@ if [ "$GOENV_ROOT" != "${RBENV_TEST_DIR}/root" ]; then
 fi
 
 teardown() {
-  rm -rf "$RBENV_TEST_DIR"
+  rm -rf "$GOENV_TEST_DIR"
 }
 
 flunk() {
   { if [ "$#" -eq 0 ]; then cat -
     else echo "$@"
     fi
-  } | sed "s:${RBENV_TEST_DIR}:TEST_DIR:g" >&2
+  } | sed "s:${GOENV_TEST_DIR}:TEST_DIR:g" >&2
   return 1
 }
 
@@ -103,7 +103,7 @@ path_without() {
   for found in $(which -a "$exe"); do
     found="${found%/*}"
     if [ "$found" != "${GOENV_ROOT}/shims" ]; then
-      alt="${RBENV_TEST_DIR}/$(echo "${found#/}" | tr '/' '-')"
+      alt="${GOENV_TEST_DIR}/$(echo "${found#/}" | tr '/' '-')"
       mkdir -p "$alt"
       for util in bash head cut readlink greadlink; do
         if [ -x "${found}/$util" ]; then

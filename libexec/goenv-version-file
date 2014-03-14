@@ -9,9 +9,6 @@ find_local_version_file() {
     if [ -e "${root}/.go-version" ]; then
       echo "${root}/.go-version"
       exit
-    elif [ -e "${root}/.goenv-version" ]; then
-      echo "${root}/.goenv-version"
-      exit
     fi
     root="${root%/*}"
   done

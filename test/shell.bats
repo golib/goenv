@@ -3,20 +3,20 @@
 load test_helper
 
 @test "no shell version" {
-  mkdir -p "${RBENV_TEST_DIR}/myproject"
-  cd "${RBENV_TEST_DIR}/myproject"
-  echo "1.2.3" > .go-version
+  mkdir -p "${GOENV_TEST_DIR}/myproject"
+  cd "${GOENV_TEST_DIR}/myproject"
+  echo "1.2.1" > .go-version
   GOENV_VERSION="" run goenv-sh-shell
   assert_failure "goenv: no shell-specific version configured"
 }
 
 @test "shell version" {
-  GOENV_SHELL=bash GOENV_VERSION="1.2.3" run goenv-sh-shell
+  GOENV_SHELL=bash GOENV_VERSION="1.2.1" run goenv-sh-shell
   assert_success 'echo "$GOENV_VERSION"'
 }
 
 @test "shell version (fish)" {
-  GOENV_SHELL=fish GOENV_VERSION="1.2.3" run goenv-sh-shell
+  GOENV_SHELL=fish GOENV_VERSION="1.2.1" run goenv-sh-shell
   assert_success 'echo "$GOENV_VERSION"'
 }
 
@@ -31,22 +31,22 @@ load test_helper
 }
 
 @test "shell change invalid version" {
-  run goenv-sh-shell 1.2.3
+  run goenv-sh-shell 1.2.1
   assert_failure
   assert_output <<SH
-goenv: version \`1.2.3' not installed
+goenv: version \`1.2.1' not installed
 false
 SH
 }
 
 @test "shell change version" {
-  mkdir -p "${GOENV_ROOT}/versions/1.2.3"
-  GOENV_SHELL=bash run goenv-sh-shell 1.2.3
-  assert_success 'export GOENV_VERSION="1.2.3"'
+  mkdir -p "${GOENV_ROOT}/versions/1.2.1"
+  GOENV_SHELL=bash run goenv-sh-shell 1.2.1
+  assert_success 'export GOENV_VERSION="1.2.1"'
 }
 
 @test "shell change version (fish)" {
-  mkdir -p "${GOENV_ROOT}/versions/1.2.3"
-  GOENV_SHELL=fish run goenv-sh-shell 1.2.3
-  assert_success 'setenv GOENV_VERSION "1.2.3"'
+  mkdir -p "${GOENV_ROOT}/versions/1.2.1"
+  GOENV_SHELL=fish run goenv-sh-shell 1.2.1
+  assert_success 'setenv GOENV_VERSION "1.2.1"'
 }

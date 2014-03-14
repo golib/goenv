@@ -32,14 +32,13 @@ create_executable() {
 }
 
 @test "creates shims" {
-  create_executable "1.8" "ruby"
-  create_executable "1.8" "rake"
-  create_executable "2.0" "ruby"
-  create_executable "2.0" "rspec"
+  create_executable "1" "go"
+  create_executable "1" "cover"
+  create_executable "1.2" "go"
+  create_executable "1.2" "cover"
 
-  assert [ ! -e "${GOENV_ROOT}/shims/ruby" ]
-  assert [ ! -e "${GOENV_ROOT}/shims/rake" ]
-  assert [ ! -e "${GOENV_ROOT}/shims/rspec" ]
+  assert [ ! -e "${GOENV_ROOT}/shims/go" ]
+  assert [ ! -e "${GOENV_ROOT}/shims/cover" ]
 
   run goenv-rehash
   assert_success ""
@@ -47,9 +46,8 @@ create_executable() {
   run ls "${GOENV_ROOT}/shims"
   assert_success
   assert_output <<OUT
-rake
-rspec
-ruby
+cover
+go
 OUT
 }
 
@@ -58,8 +56,8 @@ OUT
   touch "${GOENV_ROOT}/shims/oldshim1"
   chmod +x "${GOENV_ROOT}/shims/oldshim1"
 
-  create_executable "2.0" "rake"
-  create_executable "2.0" "ruby"
+  create_executable "1.2" "godoc"
+  create_executable "1.2" "go"
 
   run goenv-rehash
   assert_success ""
@@ -68,10 +66,10 @@ OUT
 }
 
 @test "binary install locations containing spaces" {
-  create_executable "dirname1 p247" "ruby"
-  create_executable "dirname2 preview1" "rspec"
+  create_executable "dirname1 1" "go"
+  create_executable "dirname2 1.2.1" "cover"
 
-  assert [ ! -e "${GOENV_ROOT}/shims/ruby" ]
+  assert [ ! -e "${GOENV_ROOT}/shims/go" ]
   assert [ ! -e "${GOENV_ROOT}/shims/rspec" ]
 
   run goenv-rehash
@@ -80,13 +78,13 @@ OUT
   run ls "${GOENV_ROOT}/shims"
   assert_success
   assert_output <<OUT
-rspec
-ruby
+cover
+go
 OUT
 }
 
 @test "carries original IFS within hooks" {
-  hook_path="${RBENV_TEST_DIR}/goenv.d"
+  hook_path="${GOENV_TEST_DIR}/goenv.d"
   mkdir -p "${hook_path}/rehash"
   cat > "${hook_path}/rehash/hello.bash" <<SH
 hellos=(\$(printf "hello\\tugly world\\nagain"))
@@ -100,15 +98,15 @@ SH
 }
 
 @test "sh-rehash in bash" {
-  create_executable "2.0" "ruby"
+  create_executable "1.2.1" "go"
   GOENV_SHELL=bash run goenv-sh-rehash
   assert_success "hash -r 2>/dev/null || true"
-  assert [ -x "${GOENV_ROOT}/shims/ruby" ]
+  assert [ -x "${GOENV_ROOT}/shims/go" ]
 }
 
 @test "sh-rehash in fish" {
-  create_executable "2.0" "ruby"
+  create_executable "1.2.1" "go"
   GOENV_SHELL=fish run goenv-sh-rehash
   assert_success ""
-  assert [ -x "${GOENV_ROOT}/shims/ruby" ]
+  assert [ -x "${GOENV_ROOT}/shims/go" ]
 }

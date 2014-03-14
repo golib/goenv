@@ -3,7 +3,7 @@
 load test_helper
 
 create_command() {
-  bin="${RBENV_TEST_DIR}/bin"
+  bin="${GOENV_TEST_DIR}/bin"
   mkdir -p "$bin"
   echo "$2" > "${bin}/$1"
   chmod +x "${bin}/$1"

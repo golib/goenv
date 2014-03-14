@@ -20,7 +20,7 @@ load test_helper
 }
 
 @test "commands in path with spaces" {
-  path="${RBENV_TEST_DIR}/my commands"
+  path="${GOENV_TEST_DIR}/my commands"
   cmd="${path}/goenv-sh-hello"
   mkdir -p "$path"
   touch "$cmd"

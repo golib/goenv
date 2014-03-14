@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Summary: Display prefix for a Ruby version
+# Summary: Display prefix for a Golang version
 # Usage: goenv prefix [<version>]
 #
-# Displays the directory where a Ruby version is installed. If no
+# Displays the directory where a Golang version is installed. If no
 # version is given, `goenv prefix' displays the location of the
 # currently selected version.
 
@@ -22,9 +22,9 @@ elif [ -z "$GOENV_VERSION" ]; then
 fi
 
 if [ "$GOENV_VERSION" = "system" ]; then
-  if RUBY_PATH="$(goenv-which ruby 2>/dev/null)"; then
-    RUBY_PATH="${RUBY_PATH%/*}"
-    echo "${RUBY_PATH%/bin}"
+  if GO_PATH="$(goenv-which go 2>/dev/null)"; then
+    GO_PATH="${GO_PATH%/*}"
+    echo "${GO_PATH%/bin}"
     exit
   else
     echo "goenv: system version not found in PATH" >&2
@@ -32,10 +32,10 @@ if [ "$GOENV_VERSION" = "system" ]; then
   fi
 fi
 
-RBENV_PREFIX_PATH="${GOENV_ROOT}/versions/${GOENV_VERSION}"
-if [ ! -d "$RBENV_PREFIX_PATH" ]; then
+GO_PREFIX_PATH="${GOENV_ROOT}/versions/${GOENV_VERSION}"
+if [ ! -d "$GO_PREFIX_PATH" ]; then
   echo "goenv: version \`${GOENV_VERSION}' not installed" >&2
   exit 1
 fi
 
-echo "$RBENV_PREFIX_PATH"
+echo "$GO_PREFIX_PATH"

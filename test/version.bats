@@ -7,8 +7,8 @@ create_version() {
 }
 
 setup() {
-  mkdir -p "$RBENV_TEST_DIR"
-  cd "$RBENV_TEST_DIR"
+  mkdir -p "$GOENV_TEST_DIR"
+  cd "$GOENV_TEST_DIR"
 }
 
 @test "no version selected" {
@@ -18,21 +18,21 @@ setup() {
 }
 
 @test "set by GOENV_VERSION" {
-  create_version "1.9.3"
-  GOENV_VERSION=1.9.3 run goenv-version
-  assert_success "1.9.3 (set by GOENV_VERSION environment variable)"
+  create_version "1.2"
+  GOENV_VERSION=1.2 run goenv-version
+  assert_success "1.2 (set by GOENV_VERSION environment variable)"
 }
 
 @test "set by local file" {
-  create_version "1.9.3"
-  cat > ".go-version" <<<"1.9.3"
+  create_version "1.2"
+  cat > ".go-version" <<<"1.2"
   run goenv-version
-  assert_success "1.9.3 (set by ${PWD}/.go-version)"
+  assert_success "1.2 (set by ${PWD}/.go-version)"
 }
 
 @test "set by global file" {
-  create_version "1.9.3"
-  cat > "${GOENV_ROOT}/version" <<<"1.9.3"
+  create_version "1.2"
+  cat > "${GOENV_ROOT}/version" <<<"1.2"
   run goenv-version
-  assert_success "1.9.3 (set by ${GOENV_ROOT}/version)"
+  assert_success "1.2 (set by ${GOENV_ROOT}/version)"
 }
