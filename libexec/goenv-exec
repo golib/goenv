@@ -31,7 +31,7 @@ fi
 
 export GOENV_VERSION
 GOENV_COMMAND_PATH="$(goenv-which "$GOENV_COMMAND")"
-RBENV_BIN_PATH="${GOENV_COMMAND_PATH%/*}"
+GOENV_BIN_PATH="${GOENV_COMMAND_PATH%/*}"
 
 OLDIFS="$IFS"
 IFS=$'\n' scripts=(`goenv-hooks exec`)
@@ -42,6 +42,6 @@ done
 
 shift 1
 if [ "$GOENV_VERSION" != "system" ]; then
-  export PATH="${RBENV_BIN_PATH}:${PATH}"
+  export PATH="${GOENV_BIN_PATH}:${PATH}"
 fi
 exec -a "$GOENV_COMMAND" "$GOENV_COMMAND_PATH" "$@"
