@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 #
-# Summary: Set or show the global Ruby version
+# Summary: Set or show the global Golang version
 #
 # Usage: goenv global <version>
 #
-# Sets the global Ruby version. You can override the global version at
+# Sets the global Golang version. You can override the global version at
 # any time by setting a directory-specific version with `goenv local'
 # or by setting the `GOENV_VERSION' environment variable.
 #
-# <version> should be a string matching a Ruby version known to goenv.
-# The special version string `system' will use your default system Ruby.
-# Run `goenv versions' for a list of available Ruby versions.
+# <version> should be a string matching a Golang version known to goenv.
+# The special version string `system' will use your default system Golang.
+# Run `goenv versions' for a list of available Golang versions.
 
 set -e
 [ -n "$GOENV_DEBUG" ] && set -x

@@ -11,22 +11,22 @@ load test_helper
 }
 
 @test "shell version" {
-  RBENV_SHELL=bash GOENV_VERSION="1.2.3" run goenv-sh-shell
+  GOENV_SHELL=bash GOENV_VERSION="1.2.3" run goenv-sh-shell
   assert_success 'echo "$GOENV_VERSION"'
 }
 
 @test "shell version (fish)" {
-  RBENV_SHELL=fish GOENV_VERSION="1.2.3" run goenv-sh-shell
+  GOENV_SHELL=fish GOENV_VERSION="1.2.3" run goenv-sh-shell
   assert_success 'echo "$GOENV_VERSION"'
 }
 
 @test "shell unset" {
-  RBENV_SHELL=bash run goenv-sh-shell --unset
+  GOENV_SHELL=bash run goenv-sh-shell --unset
   assert_success "unset GOENV_VERSION"
 }
 
 @test "shell unset (fish)" {
-  RBENV_SHELL=fish run goenv-sh-shell --unset
+  GOENV_SHELL=fish run goenv-sh-shell --unset
   assert_success "set -e GOENV_VERSION"
 }
 
@@ -41,12 +41,12 @@ SH
 
 @test "shell change version" {
   mkdir -p "${GOENV_ROOT}/versions/1.2.3"
-  RBENV_SHELL=bash run goenv-sh-shell 1.2.3
+  GOENV_SHELL=bash run goenv-sh-shell 1.2.3
   assert_success 'export GOENV_VERSION="1.2.3"'
 }
 
 @test "shell change version (fish)" {
   mkdir -p "${GOENV_ROOT}/versions/1.2.3"
-  RBENV_SHELL=fish run goenv-sh-shell 1.2.3
+  GOENV_SHELL=fish run goenv-sh-shell 1.2.3
   assert_success 'setenv GOENV_VERSION "1.2.3"'
 }

@@ -28,7 +28,7 @@ load test_helper
   root="$(cd $BATS_TEST_DIRNAME/.. && pwd)"
   SHELL=/bin/false run goenv-init -
   assert_success
-  assert_line "export RBENV_SHELL=bash"
+  assert_line "export GOENV_SHELL=bash"
 }
 
 @test "setup shell completions (fish)" {

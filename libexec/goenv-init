@@ -105,10 +105,10 @@ fi
 
 case "$shell" in
 fish )
-  echo "setenv RBENV_SHELL $shell"
+  echo "setenv GOENV_SHELL $shell"
 ;;
 * )
-  echo "export RBENV_SHELL=$shell"
+  echo "export GOENV_SHELL=$shell"
 ;;
 esac
 
