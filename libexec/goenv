@@ -64,11 +64,11 @@ for plugin_bin in "${GOENV_ROOT}/plugins/"*/bin; do
 done
 export PATH="${bin_path}:${PATH}"
 
-hook_path="${RBENV_HOOK_PATH}:${GOENV_ROOT}/goenv.d:/usr/local/etc/goenv.d:/etc/goenv.d:/usr/lib/goenv/hooks"
+hook_path="${GOENV_HOOK_PATH}:${GOENV_ROOT}/goenv.d:/usr/local/etc/goenv.d:/etc/goenv.d:/usr/lib/goenv/hooks"
 for plugin_hook in "${GOENV_ROOT}/plugins/"*/etc/goenv.d; do
   hook_path="${hook_path}:${plugin_hook}"
 done
-export RBENV_HOOK_PATH="$hook_path"
+export GOENV_HOOK_PATH="$hook_path"
 
 shopt -u nullglob
 

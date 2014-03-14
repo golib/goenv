@@ -21,7 +21,7 @@ create_hook() {
   create_hook "$path1" which "boom.bash"
   create_hook "$path2" exec "bueno.bash"
 
-  RBENV_HOOK_PATH="$path1:$path2" run goenv-hooks exec
+  GOENV_HOOK_PATH="$path1:$path2" run goenv-hooks exec
   assert_success
   assert_output <<OUT
 ${RBENV_TEST_DIR}/goenv.d/exec/ahoy.bash
@@ -36,7 +36,7 @@ OUT
   create_hook "$path1" exec "hello.bash"
   create_hook "$path2" exec "ahoy.bash"
 
-  RBENV_HOOK_PATH="$path1:$path2" run goenv-hooks exec
+  GOENV_HOOK_PATH="$path1:$path2" run goenv-hooks exec
   assert_success
   assert_output <<OUT
 ${RBENV_TEST_DIR}/my hooks/goenv.d/exec/hello.bash
@@ -49,7 +49,7 @@ OUT
   create_hook "$path" exec "hello.bash"
   mkdir -p "$HOME"
 
-  RBENV_HOOK_PATH="${HOME}/../goenv.d" run goenv-hooks exec
+  GOENV_HOOK_PATH="${HOME}/../goenv.d" run goenv-hooks exec
   assert_success "${RBENV_TEST_DIR}/goenv.d/exec/hello.bash"
 }
 
@@ -60,6 +60,6 @@ OUT
   touch "${HOME}/hola.bash"
   ln -s "../../home/hola.bash" "${path}/exec/hello.bash"
 
-  RBENV_HOOK_PATH="$path" run goenv-hooks exec
+  GOENV_HOOK_PATH="$path" run goenv-hooks exec
   assert_success "${HOME}/hola.bash"
 }

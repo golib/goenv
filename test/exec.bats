@@ -40,7 +40,7 @@ OUT
   echo "export HELLO='from hook'" > "${hook_path}/exec/hello.bash"
 
   export RBENV_VERSION=system
-  RBENV_HOOK_PATH="$hook_path" run goenv-exec env
+  GOENV_HOOK_PATH="$hook_path" run goenv-exec env
   assert_success
   assert_line "HELLO=from hook"
 }
@@ -54,7 +54,7 @@ echo HELLO="\$(printf ":%s" "\${hellos[@]}")"
 SH
 
   export RBENV_VERSION=system
-  RBENV_HOOK_PATH="$hook_path" IFS=$' \t\n' run goenv-exec env
+  GOENV_HOOK_PATH="$hook_path" IFS=$' \t\n' run goenv-exec env
   assert_success
   assert_line "HELLO=:hello:ugly:world:again"
 }

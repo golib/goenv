@@ -43,7 +43,7 @@ realpath() {
   cd "$cwd"
 }
 
-IFS=: hook_paths=($RBENV_HOOK_PATH)
+IFS=: hook_paths=($GOENV_HOOK_PATH)
 
 shopt -s nullglob
 for path in "${hook_paths[@]}"; do

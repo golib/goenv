@@ -94,7 +94,7 @@ echo HELLO="\$(printf ":%s" "\${hellos[@]}")"
 exit
 SH
 
-  RBENV_HOOK_PATH="$hook_path" IFS=$' \t\n' run goenv-rehash
+  GOENV_HOOK_PATH="$hook_path" IFS=$' \t\n' run goenv-rehash
   assert_success
   assert_output "HELLO=:hello:ugly:world:again"
 }
