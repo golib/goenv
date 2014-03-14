@@ -1,50 +1,44 @@
-# Groom your app’s Ruby environment with goenv.
+# Groom your project’s Golang environment with goenv.
+> This is based on *Sam Stephenson*'s [rbenv](https://github.com/sstephenson/rbenv) ! And all the wisdom of belong to him!
 
-Use goenv to pick a Ruby version for your application and guarantee
-that your development environment matches production. Put goenv to work
-with [Bundler](http://gembundler.com/) for painless Ruby upgrades and
-bulletproof deployments.
+Use goenv to pick a Golang version for your application and guarantee
+that your development environment matches production. You can also maintain
+your Golang packages with painless.
 
-**Powerful in development.** Specify your app's Ruby version once,
+**Powerful in development.** Specify your project's Golang version once,
   in a single file. Keep all your teammates on the same page. No
-  headaches running apps on different versions of Ruby. Just Works™
-  from the command line and with app servers like [Pow](http://pow.cx).
-  Override the Ruby version anytime: just set an environment variable.
+  headaches running projects on different versions of Golang. Just Works™
+  from the command line. Override the Golang version anytime: just set
+  an environment variable.
 
-**Rock-solid in production.** Your application's executables are its
-  interface with ops. With goenv and [Bundler
-  binstubs](https://github.com/sstephenson/goenv/wiki/Understanding-binstubs)
-  you'll never again need to `cd` in a cron job or Chef recipe to
-  ensure you've selected the right runtime. The Ruby version
-  dependency lives in one place—your app—so upgrades and rollbacks are
-  atomic, even when you switch versions.
+**Rock-solid in production.** Your project's executables are its
+  interface with ops. With goenv you'll never again need to
+  `cd` in a cron job or Chef recipe to ensure you've selected
+  the right runtime. The Golang version dependency lives in
+  one place—your project—so upgrades and rollbacks are atomic,
+  even when you switch versions.
 
-**One thing well.** goenv is concerned solely with switching Ruby
+**One thing well.** goenv is concerned solely with switching Golang
   versions. It's simple and predictable. A rich plugin ecosystem lets
-  you tailor it to suit your needs. Compile your own Ruby versions, or
-  use the [ruby-build][]
-  plugin to automate the process. Specify per-application environment
-  variables with [goenv-vars](https://github.com/sstephenson/goenv-vars).
-  See more [plugins on the
-  wiki](https://github.com/sstephenson/goenv/wiki/Plugins).
+  you tailor it to suit your needs. Compile your own Golang versions
+  automatic.
 
-[**Why choose goenv over
-RVM?**](https://github.com/sstephenson/goenv/wiki/Why-goenv%3F)
+[**Why choose goenv?**](https://github.com/mcspring/goenv/wiki/Why-goenv)
 
 ## Table of Contents
 
 * [How It Works](#how-it-works)
   * [Understanding PATH](#understanding-path)
   * [Understanding Shims](#understanding-shims)
-  * [Choosing the Ruby Version](#choosing-the-go-version)
-  * [Locating the Ruby Installation](#locating-the-ruby-installation)
+  * [Choosing the Golang Version](#choosing-the-go-version)
+  * [Locating the Golang Installation](#locating-the-go-installation)
 * [Installation](#installation)
   * [Basic GitHub Checkout](#basic-github-checkout)
     * [Upgrading](#upgrading)
   * [Homebrew on Mac OS X](#homebrew-on-mac-os-x)
   * [How goenv hooks into your shell](#how-goenv-hooks-into-your-shell)
-  * [Installing Ruby Versions](#installing-go-versions)
-  * [Uninstalling Ruby Versions](#uninstalling-go-versions)
+  * [Installing Golang Versions](#installing-go-versions)
+  * [Uninstalling Golang Versions](#uninstalling-go-versions)
 * [Command Reference](#command-reference)
   * [goenv local](#goenv-local)
   * [goenv global](#goenv-global)
@@ -60,14 +54,14 @@ RVM?**](https://github.com/sstephenson/goenv/wiki/Why-goenv%3F)
 
 ## How It Works
 
-At a high level, goenv intercepts Ruby commands using shim
-executables injected into your `PATH`, determines which Ruby version
-has been specified by your application, and passes your commands along
-to the correct Ruby installation.
+At a high level, goenv intercepts Golang commands using shim
+executables injected into your `PATH`, determines which Golang version
+has been specified by your project, and passes your commands along
+to the correct Golang installation.
 
 ### Understanding PATH
 
-When you run a command like `ruby` or `rake`, your operating system
+When you run a command like `go` or `godoc`, your operating system
 searches through a list of directories to find an executable file with
 that name. This list of directories lives in an environment variable
 called `PATH`, with each directory in the list separated by a colon:
@@ -88,21 +82,21 @@ goenv works by inserting a directory of _shims_ at the front of your
     ~/.goenv/shims:/usr/local/bin:/usr/bin:/bin
 
 Through a process called _rehashing_, goenv maintains shims in that
-directory to match every Ruby command across every installed version
-of Ruby—`irb`, `gem`, `rake`, `rails`, `ruby`, and so on.
+directory to match every Golang command across every installed version
+of Golang — `go`, `fix`, `cover`, and so on.
 
 Shims are lightweight executables that simply pass your command along
-to goenv. So with goenv installed, when you run, say, `rake`, your
+to goenv. So with goenv installed, when you run, say, `godoc`, your
 operating system will do the following:
 
-* Search your `PATH` for an executable file named `rake`
-* Find the goenv shim named `rake` at the beginning of your `PATH`
-* Run the shim named `rake`, which in turn passes the command along to
+* Search your `PATH` for an executable file named `godoc`
+* Find the goenv shim named `godoc` at the beginning of your `PATH`
+* Run the shim named `godoc`, which in turn passes the command along to
   goenv
 
-### Choosing the Ruby Version
+### Choosing the Golang Version
 
-When you execute a shim, goenv determines which Ruby version to use by
+When you execute a shim, goenv determines which Golang version to use by
 reading it from the following sources, in this order:
 
 1. The `GOENV_VERSION` environment variable, if specified. You can use
@@ -120,32 +114,49 @@ reading it from the following sources, in this order:
 
 4. The global `~/.goenv/version` file. You can modify this file using
    the [`goenv global`](#goenv-global) command. If the global version
-   file is not present, goenv assumes you want to use the "system"
-   Ruby—i.e. whatever version would be run if goenv weren't in your
+   file is not present, goenv assumes you want to use the "system" installed
+   Golang — i.e. whatever version would be run if goenv weren't in your
    path.
 
-### Locating the Ruby Installation
+### Choosing the GOPATH
 
-Once goenv has determined which version of Ruby your application has
-specified, it passes the command along to the corresponding Ruby
+1. The `GOENV_GOPATH` environment variable, if specified. You can use
+   the [`goenv shell`](#goenv-shell) command to set this environment
+   variable in your current shell session.
+
+2. The first `.go-version` file found by searching the directory of the
+   script you are executing and each of its parent directories until reaching
+   the root of your filesystem.
+
+3. The first `.go-version` file found by searching the current working
+   directory and each of its parent directories until reaching the root of your
+   filesystem. You can modify the `.go-version` file in the current working
+   directory with the [`goenv local`](#goenv-local) command.
+
+4. The global `~/.goenv/version` file. You can modify this file using
+   the [`goenv global`](#goenv-global) command. If the global version
+   file is not present, goenv assumes you want to use the "system" installed
+   Golang — i.e. whatever version would be run if goenv weren't in your
+   path.
+
+### Locating the Golang Installation
+
+Once goenv has determined which version of Golang your project has
+specified, it passes the command along to the corresponding Golang
 installation.
 
-Each Ruby version is installed into its own directory under
+Each Golang version is installed into its own directory under
 `~/.goenv/versions`. For example, you might have these versions
 installed:
 
-* `~/.goenv/versions/1.8.7-p371/`
-* `~/.goenv/versions/1.9.3-p327/`
-* `~/.goenv/versions/jruby-1.7.1/`
+* `~/.goenv/versions/go-1/`
+* `~/.goenv/versions/go-1.2/`
+* `~/.goenv/versions/go-1.2.1/`
 
 Version names to goenv are simply the names of the directories in
 `~/.goenv/versions`.
 
 ## Installation
-
-**Compatibility note**: goenv is _incompatible_ with RVM. Please make
-  sure to fully uninstall RVM and remove any references to it from
-  your shell initialization files before installing goenv.
 
 If you're on Mac OS X, consider
 [installing with Homebrew](#homebrew-on-mac-os-x).
@@ -158,7 +169,7 @@ easy to fork and contribute any changes back upstream.
 1. Check out goenv into `~/.goenv`.
 
     ~~~ sh
-    $ git clone https://github.com/sstephenson/goenv.git ~/.goenv
+    $ git clone https://github.com/golib/goenv.git ~/.goenv
     ~~~
 
 2. Add `~/.goenv/bin` to your `$PATH` for access to the `goenv`
@@ -188,10 +199,6 @@ easy to fork and contribute any changes back upstream.
     #=> "goenv is a function"
     ~~~
 
-5. _(Optional)_ Install [ruby-build][], which provides the
-   `goenv install` command that simplifies the process of
-   [installing new Ruby versions](#installing-go-versions).
-
 #### Upgrading
 
 If you've installed goenv manually using git, you can upgrade your
@@ -207,7 +214,7 @@ To use a specific release of goenv, check out the corresponding tag:
 ~~~ sh
 $ cd ~/.goenv
 $ git fetch
-$ git checkout v0.3.0
+$ git checkout v1
 ~~~
 
 If you've [installed via Homebrew](#homebrew-on-mac-os-x), then upgrade
@@ -215,18 +222,17 @@ via its `brew` command:
 
 ~~~ sh
 $ brew update
-$ brew upgrade goenv ruby-build
+$ brew upgrade goenv
 ~~~
 
 ### Homebrew on Mac OS X
 
 As an alternative to installation via GitHub checkout, you can install
-goenv and [ruby-build][] using the [Homebrew](http://brew.sh) package
-manager on Mac OS X:
+goenv using the [Homebrew](http://brew.sh) package manager on Mac OS X:
 
 ~~~
 $ brew update
-$ brew install goenv ruby-build
+$ brew install goenv
 ~~~
 
 Afterwards you'll still need to add `eval "$(goenv init -)"` to your
@@ -265,39 +271,49 @@ opposed to this idea. Here's what `goenv init` actually does:
 Run `goenv init -` for yourself to see exactly what happens under the
 hood.
 
-### Installing Ruby Versions
+### Installing Golang Versions
 
-The `goenv install` command doesn't ship with goenv out of the box, but
-is provided by the [ruby-build][] project. If you installed it either
-as part of GitHub checkout process outlined above or via Homebrew, you
-should be able to:
+Upgrade locale cache by run:
 
 ~~~ sh
-# list all available versions:
-$ goenv install -l
+# upgrade locale cache
+$ goenv upgrade
+~~~
 
-# install a Ruby version:
-$ goenv install 2.0.0-p247
+List all available versions by run:
+
+~~~ sh
+# list all available versions
+$ goenv list
+~~~
+
+Install the specified version by run:
+
+~~~ sh
+# install go1
+$ goenv install go1
 ~~~
 
 Alternatively to the `install` command, you can download and compile
-Ruby manually as a subdirectory of `~/.goenv/versions/`. An entry in
-that directory can also be a symlink to a Ruby version installed
+Golang manually as a subdirectory of `~/.goenv/versions/`. An entry in
+that directory can also be a symlink to a Golang version installed
 elsewhere on the filesystem. goenv doesn't care; it will simply treat
-any entry in the `versions/` directory as a separate Ruby version.
+any entry in the `versions/` directory as a separate Golang version.
 
-### Uninstalling Ruby Versions
+### Uninstalling Golang Versions
 
-As time goes on, Ruby versions you install will accumulate in your
+As time goes on, Golang versions you install will accumulate in your
 `~/.goenv/versions` directory.
 
-To remove old Ruby versions, simply `rm -rf` the directory of the
-version you want to remove. You can find the directory of a particular
-Ruby version with the `goenv prefix` command, e.g. `goenv prefix
-1.8.7-p357`.
+~~~ sh
+# uninstall a Golang version
+$ goenv uninstall go1
+~~~
 
-The [ruby-build][] plugin provides an `goenv uninstall` command to
-automate the removal process.
+To remove old Golang versions, simply `rm -rf` the directory of the
+version you want to remove. You can find the directory of a particular
+Golang version with the `goenv prefix` command, e.g. `goenv prefix
+1.2`.
 
 ## Command Reference
 
@@ -306,34 +322,29 @@ first argument. The most common subcommands are:
 
 ### goenv local
 
-Sets a local application-specific Ruby version by writing the version
+Sets a local project-specific Golang version by writing the version
 name to a `.go-version` file in the current directory. This version
 overrides the global version, and can be overridden itself by setting
 the `GOENV_VERSION` environment variable or with the `goenv shell`
 command.
 
-    $ goenv local 1.9.3-p327
+    $ goenv local 1.2
 
 When run without a version number, `goenv local` reports the currently
 configured local version. You can also unset the local version:
 
     $ goenv local --unset
 
-Previous versions of goenv stored local version specifications in a
-file named `.goenv-version`. For backwards compatibility, goenv will
-read a local version specified in an `.goenv-version` file, but a
-`.go-version` file in the same directory will take precedence.
-
 ### goenv global
 
-Sets the global version of Ruby to be used in all shells by writing
+Sets the global version of Golang to be used in all shells by writing
 the version name to the `~/.goenv/version` file. This version can be
-overridden by an application-specific `.go-version` file, or by
+overridden by an project-specific `.go-version` file, or by
 setting the `GOENV_VERSION` environment variable.
 
-    $ goenv global 1.8.7-p352
+    $ goenv global 1.2.1
 
-The special version name `system` tells goenv to use the system Ruby
+The special version name `system` tells goenv to use the system Golang
 (detected by searching your `$PATH`).
 
 When run without a version number, `goenv global` reports the
@@ -341,11 +352,11 @@ currently configured global version.
 
 ### goenv shell
 
-Sets a shell-specific Ruby version by setting the `GOENV_VERSION`
+Sets a shell-specific Golang version by setting the `GOENV_VERSION`
 environment variable in your shell. This version overrides
-application-specific versions and the global version.
+project-specific versions and the global version.
 
-    $ goenv shell jruby-1.7.1
+    $ goenv shell go1
 
 When run without a version number, `goenv shell` reports the current
 value of `GOENV_VERSION`. You can also unset the shell version:
@@ -357,34 +368,31 @@ the installation instructions) in order to use this command. If you
 prefer not to use shell integration, you may simply set the
 `GOENV_VERSION` variable yourself:
 
-    $ export GOENV_VERSION=jruby-1.7.1
+    $ export GOENV_VERSION=go1
 
 ### goenv versions
 
-Lists all Ruby versions known to goenv, and shows an asterisk next to
+Lists all installed Golang versions known to goenv, and shows an asterisk next to
 the currently active version.
 
     $ goenv versions
-      1.8.7-p352
-      1.9.2-p290
-    * 1.9.3-p327 (set by /Users/sam/.goenv/version)
-      jruby-1.7.1
-      rbx-1.2.4
-      ree-1.8.7-2011.03
+      go1
+      1.2
+    * 1.2.1 (set by /Users/mc/.goenv/version)
 
 ### goenv version
 
-Displays the currently active Ruby version, along with information on
+Displays the currently active Golang version, along with information on
 how it was set.
 
     $ goenv version
-    1.8.7-p352 (set by /Volumes/37signals/basecamp/.go-version)
+    1.2.1 (set by /Volumes/golang/.go-version)
 
 ### goenv rehash
 
-Installs shims for all Ruby executables known to goenv (i.e.,
+Installs shims for all Golang executables known to goenv (i.e.,
 `~/.goenv/versions/*/bin/*`). Run this command after you install a new
-version of Ruby, or install a gem that provides commands.
+version of Golang, or install a program that provides commands.
 
     $ goenv rehash
 
@@ -393,23 +401,21 @@ version of Ruby, or install a gem that provides commands.
 Displays the full path to the executable that goenv will invoke when
 you run the given command.
 
-    $ goenv which irb
-    /Users/sam/.goenv/versions/1.9.3-p327/bin/irb
+    $ goenv which fix
+    /Users/mc/.goenv/versions/1.2.1/bin/fix
 
 ### goenv whence
 
-Lists all Ruby versions with the given command installed.
+Lists all Golang versions with the given command installed.
 
-    $ goenv whence rackup
-    1.9.3-p327
-    jruby-1.7.1
-    ree-1.8.7-2011.03
+    $ goenv whence godoc
+    go1
+    1.2.1
 
 ## Development
 
-The goenv source code is [hosted on
-GitHub](https://github.com/sstephenson/goenv). It's clean, modular,
-and easy to understand, even if you're not a shell hacker.
+The goenv source code is hosted on [GitHub](https://github.com/golib/goenv).
+It's clean, modular, and easy to understand, even if you're not a shell hacker.
 
 Tests are executed using [Bats](https://github.com/sstephenson/bats):
 
@@ -417,131 +423,11 @@ Tests are executed using [Bats](https://github.com/sstephenson/bats):
     $ bats test/<file>.bats
 
 Please feel free to submit pull requests and file bugs on the [issue
-tracker](https://github.com/sstephenson/goenv/issues).
+tracker](https://github.com/golib/goenv/issues).
 
 ### Version History
 
-**0.4.0** (January 4, 2013)
-
-* goenv now prefers `.go-version` files to `.goenv-version` files
-  for specifying local application-specific versions. The
-  `.go-version` file has the same format as `.goenv-version` but is
-  [compatible with other Ruby version
-  managers](https://gist.github.com/1912050).
-* Deprecated `ruby-local-exec` and moved its functionality into the
-  standard `ruby` shim. See the [ruby-local-exec wiki
-  page](https://github.com/sstephenson/goenv/wiki/ruby-local-exec) for
-  upgrade instructions.
-* Modified shims to include the full path to goenv so that they can be
-  invoked without having goenv's bin directory in the `$PATH`.
-* Sped up `goenv init` by avoiding goenv reinitialization and by
-  using a simpler indexing approach. (Users of
-  [chef-goenv](https://github.com/fnichol/chef-goenv) should upgrade
-  to the latest version to fix a [compatibility
-  issue](https://github.com/fnichol/chef-goenv/pull/26).)
-* Reworked `goenv help` so that usage and documentation is stored as a
-  comment in each subcommand, enabling plugin commands to hook into
-  the help system.
-* Added support for full completion of the command line, not just the
-  first argument.
-* Updated installation instructions for Zsh and Ubuntu users.
-* Fixed `goenv which` and `goenv prefix` with system Ruby versions.
-* Changed `goenv exec` to avoid prepending the system Ruby location to
-  `$PATH` to fix issues running system Ruby commands that invoke other
-  commands.
-* Changed `goenv rehash` to ensure it exits with a 0 status code under
-  normal operation, and to ensure outdated shims are removed first
-  when rehashing.
-* Modified `goenv rehash` to run `hash -r` afterwards, when shell
-  integration is enabled, to ensure the shell's command cache is
-  cleared.
-* Removed use of the `+=` operator to support older versions of Bash.
-* Adjusted non-bare `goenv versions` output to include `system`, if
-  present.
-* Improved documentation for installing and uninstalling Ruby
-  versions.
-* Fixed `goenv versions` not to display a warning if the currently
-  specified version doesn't exist.
-* Fixed an instance of local variable leakage in the `goenv` shell
-  function wrapper.
-* Changed `goenv shell` to ensure it exits with a non-zero status on
-  failure.
-* Added `goenv --version` for printing the current version of goenv.
-* Added `/usr/lib/goenv/hooks` to the plugin hook search path.
-* Fixed `goenv which` to account for path entries with spaces.
-* Changed `goenv init` to accept option arguments in any order.
-
-**0.3.0** (December 25, 2011)
-
-* Added an `goenv root` command which prints the value of
-  `$GOENV_ROOT`, or the default root directory if it's unset.
-* Clarified Zsh installation instructions in the Readme.
-* Removed some redundant code in `goenv rehash`.
-* Fixed an issue with calling `readlink` for paths with spaces.
-* Changed Zsh initialization code to install completion hooks only for
-  interactive shells.
-* Added preliminary support for ksh.
-* `goenv rehash` creates or removes shims only when necessary instead
-  of removing and re-creating all shims on each invocation.
-* Fixed that `GOENV_DIR`, when specified, would be incorrectly
-  expanded to its parent directory.
-* Removed the deprecated `set-default` and `set-local` commands.
-* Added a `--no-rehash` option to `goenv init` for skipping the
-  automatic rehash when opening a new shell.
-
-**0.2.1** (October 1, 2011)
-
-* Changed the `goenv` command to ensure that `GOENV_DIR` is always an
-  absolute path. This fixes an issue where Ruby scripts using the
-  `ruby-local-exec` wrapper would go into an infinite loop when
-  invoked with a relative path from the command line.
-
-**0.2.0** (September 28, 2011)
-
-* Renamed `goenv set-default` to `goenv global` and `goenv set-local`
-  to `goenv local`. The `set-` commands are deprecated and will be
-  removed in the next major release.
-* goenv now uses `greadlink` on Solaris.
-* Added a `ruby-local-exec` command which can be used in shebangs in
-  place of `#!/usr/bin/env ruby` to properly set the project-specific
-  Ruby version regardless of current working directory.
-* Fixed an issue with `goenv rehash` when no binaries are present.
-* Added support for `goenv-sh-*` commands, which run inside the
-  current shell instead of in a child process.
-* Added an `goenv shell` command for conveniently setting the
-  `$GOENV_VERSION` environment variable.
-* Added support for storing goenv versions and shims in directories
-  other than `~/.goenv` with the `$GOENV_ROOT` environment variable.
-* Added support for debugging goenv via `set -x` when the
-  `$GOENV_DEBUG` environment variable is set.
-* Refactored the autocompletion system so that completions are now
-  built-in to each command and shared between bash and Zsh.
-* Added support for plugin bundles in `~/.goenv/plugins` as documented
-  in [issue #102](https://github.com/sstephenson/goenv/pull/102).
-* Added `/usr/local/etc/goenv.d` to the list of directories searched
-  for goenv hooks.
-* Added support for an `$GOENV_DIR` environment variable which
-  defaults to the current working directory for specifying where goenv
-  searches for local version files.
-
-**0.1.2** (August 16, 2011)
-
-* Fixed goenv to be more resilient against nonexistent entries in
-  `$PATH`.
-* Made the `goenv rehash` command operate atomically.
-* Modified the `goenv init` script to automatically run `goenv
-  rehash` so that shims are recreated whenever a new shell is opened.
-* Added initial support for Zsh autocompletion.
-* Removed the dependency on egrep for reading version files.
-
-**0.1.1** (August 14, 2011)
-
-* Fixed a syntax error in the `goenv help` command.
-* Removed `-e` from the shebang in favor of `set -e` at the top of
-  each file for compatibility with operating systems that do not
-  support more than one argument in the shebang.
-
-**0.1.0** (August 11, 2011)
+**1.0.0** (March 11, 2014)
 
 * Initial public release.
 
@@ -549,7 +435,8 @@ tracker](https://github.com/sstephenson/goenv/issues).
 
 (The MIT license)
 
-Copyright (c) 2013 Sam Stephenson
+```
+Copyright (c) 2013 Spring MC
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -569,6 +456,4 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-  [ruby-build]: https://github.com/sstephenson/ruby-build#readme
+```
