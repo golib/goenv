@@ -16,12 +16,12 @@ if [ "$1" = "--complete" ]; then
 fi
 
 if [ -n "$1" ]; then
-  export RBENV_VERSION="$1"
-elif [ -z "$RBENV_VERSION" ]; then
-  RBENV_VERSION="$(goenv-version-name)"
+  export GOENV_VERSION="$1"
+elif [ -z "$GOENV_VERSION" ]; then
+  GOENV_VERSION="$(goenv-version-name)"
 fi
 
-if [ "$RBENV_VERSION" = "system" ]; then
+if [ "$GOENV_VERSION" = "system" ]; then
   if RUBY_PATH="$(goenv-which ruby 2>/dev/null)"; then
     RUBY_PATH="${RUBY_PATH%/*}"
     echo "${RUBY_PATH%/bin}"
@@ -32,9 +32,9 @@ if [ "$RBENV_VERSION" = "system" ]; then
   fi
 fi
 
-RBENV_PREFIX_PATH="${GOENV_ROOT}/versions/${RBENV_VERSION}"
+RBENV_PREFIX_PATH="${GOENV_ROOT}/versions/${GOENV_VERSION}"
 if [ ! -d "$RBENV_PREFIX_PATH" ]; then
-  echo "goenv: version \`${RBENV_VERSION}' not installed" >&2
+  echo "goenv: version \`${GOENV_VERSION}' not installed" >&2
   exit 1
 fi
 

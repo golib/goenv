@@ -105,7 +105,7 @@ operating system will do the following:
 When you execute a shim, goenv determines which Ruby version to use by
 reading it from the following sources, in this order:
 
-1. The `RBENV_VERSION` environment variable, if specified. You can use
+1. The `GOENV_VERSION` environment variable, if specified. You can use
    the [`goenv shell`](#goenv-shell) command to set this environment
    variable in your current shell session.
 
@@ -309,7 +309,7 @@ first argument. The most common subcommands are:
 Sets a local application-specific Ruby version by writing the version
 name to a `.ruby-version` file in the current directory. This version
 overrides the global version, and can be overridden itself by setting
-the `RBENV_VERSION` environment variable or with the `goenv shell`
+the `GOENV_VERSION` environment variable or with the `goenv shell`
 command.
 
     $ goenv local 1.9.3-p327
@@ -329,7 +329,7 @@ read a local version specified in an `.goenv-version` file, but a
 Sets the global version of Ruby to be used in all shells by writing
 the version name to the `~/.goenv/version` file. This version can be
 overridden by an application-specific `.ruby-version` file, or by
-setting the `RBENV_VERSION` environment variable.
+setting the `GOENV_VERSION` environment variable.
 
     $ goenv global 1.8.7-p352
 
@@ -341,23 +341,23 @@ currently configured global version.
 
 ### goenv shell
 
-Sets a shell-specific Ruby version by setting the `RBENV_VERSION`
+Sets a shell-specific Ruby version by setting the `GOENV_VERSION`
 environment variable in your shell. This version overrides
 application-specific versions and the global version.
 
     $ goenv shell jruby-1.7.1
 
 When run without a version number, `goenv shell` reports the current
-value of `RBENV_VERSION`. You can also unset the shell version:
+value of `GOENV_VERSION`. You can also unset the shell version:
 
     $ goenv shell --unset
 
 Note that you'll need goenv's shell integration enabled (step 3 of
 the installation instructions) in order to use this command. If you
 prefer not to use shell integration, you may simply set the
-`RBENV_VERSION` variable yourself:
+`GOENV_VERSION` variable yourself:
 
-    $ export RBENV_VERSION=jruby-1.7.1
+    $ export GOENV_VERSION=jruby-1.7.1
 
 ### goenv versions
 
@@ -509,7 +509,7 @@ tracker](https://github.com/sstephenson/goenv/issues).
 * Added support for `goenv-sh-*` commands, which run inside the
   current shell instead of in a child process.
 * Added an `goenv shell` command for conveniently setting the
-  `$RBENV_VERSION` environment variable.
+  `$GOENV_VERSION` environment variable.
 * Added support for storing goenv versions and shims in directories
   other than `~/.goenv` with the `$GOENV_ROOT` environment variable.
 * Added support for debugging goenv via `set -x` when the

@@ -12,7 +12,7 @@ load test_helper
 }
 
 @test "prefix for invalid version" {
-  RBENV_VERSION="1.2.3" run goenv-prefix
+  GOENV_VERSION="1.2.3" run goenv-prefix
   assert_failure "goenv: version \`1.2.3' not installed"
 }
 
@@ -20,7 +20,7 @@ load test_helper
   mkdir -p "${RBENV_TEST_DIR}/bin"
   touch "${RBENV_TEST_DIR}/bin/ruby"
   chmod +x "${RBENV_TEST_DIR}/bin/ruby"
-  RBENV_VERSION="system" run goenv-prefix
+  GOENV_VERSION="system" run goenv-prefix
   assert_success "$RBENV_TEST_DIR"
 }
 

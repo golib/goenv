@@ -3,8 +3,8 @@
 set -e
 [ -n "$GOENV_DEBUG" ] && set -x
 
-if [ -n "$RBENV_VERSION" ]; then
-  echo "RBENV_VERSION environment variable"
+if [ -n "$GOENV_VERSION" ]; then
+  echo "GOENV_VERSION environment variable"
 else
   goenv-version-file
 fi

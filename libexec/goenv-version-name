@@ -3,12 +3,12 @@
 set -e
 [ -n "$GOENV_DEBUG" ] && set -x
 
-if [ -z "$RBENV_VERSION" ]; then
-  RBENV_VERSION_FILE="$(goenv-version-file)"
-  RBENV_VERSION="$(goenv-version-file-read "$RBENV_VERSION_FILE" || true)"
+if [ -z "$GOENV_VERSION" ]; then
+  GOENV_VERSION_FILE="$(goenv-version-file)"
+  GOENV_VERSION="$(goenv-version-file-read "$GOENV_VERSION_FILE" || true)"
 fi
 
-if [ -z "$RBENV_VERSION" ] || [ "$RBENV_VERSION" = "system" ]; then
+if [ -z "$GOENV_VERSION" ] || [ "$GOENV_VERSION" = "system" ]; then
   echo "system"
   exit
 fi
@@ -18,14 +18,14 @@ version_exists() {
   [ -d "${GOENV_ROOT}/versions/${version}" ]
 }
 
-if version_exists "$RBENV_VERSION"; then
-  echo "$RBENV_VERSION"
-elif version_exists "${RBENV_VERSION#ruby-}"; then
-  { echo "warning: ignoring extraneous \`ruby-' prefix in version \`${RBENV_VERSION}'"
+if version_exists "$GOENV_VERSION"; then
+  echo "$GOENV_VERSION"
+elif version_exists "${GOENV_VERSION#ruby-}"; then
+  { echo "warning: ignoring extraneous \`ruby-' prefix in version \`${GOENV_VERSION}'"
     echo "         (set by $(goenv-version-origin))"
   } >&2
-  echo "${RBENV_VERSION#ruby-}"
+  echo "${GOENV_VERSION#ruby-}"
 else
-  echo "goenv: version \`$RBENV_VERSION' is not installed" >&2
+  echo "goenv: version \`$GOENV_VERSION' is not installed" >&2
   exit 1
 fi

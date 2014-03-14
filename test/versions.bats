@@ -66,11 +66,11 @@ OUT
   stub_system_ruby
   create_version "1.9.3"
   create_version "2.0.0"
-  RBENV_VERSION=1.9.3 run goenv-versions
+  GOENV_VERSION=1.9.3 run goenv-versions
   assert_success
   assert_output <<OUT
   system
-* 1.9.3 (set by RBENV_VERSION environment variable)
+* 1.9.3 (set by GOENV_VERSION environment variable)
   2.0.0
 OUT
 }
@@ -78,7 +78,7 @@ OUT
 @test "bare doesn't indicate current version" {
   create_version "1.9.3"
   create_version "2.0.0"
-  RBENV_VERSION=1.9.3 run goenv-versions --bare
+  GOENV_VERSION=1.9.3 run goenv-versions --bare
   assert_success
   assert_output <<OUT
 1.9.3

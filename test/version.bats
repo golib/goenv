@@ -17,10 +17,10 @@ setup() {
   assert_success "system (set by ${GOENV_ROOT}/version)"
 }
 
-@test "set by RBENV_VERSION" {
+@test "set by GOENV_VERSION" {
   create_version "1.9.3"
-  RBENV_VERSION=1.9.3 run goenv-version
-  assert_success "1.9.3 (set by RBENV_VERSION environment variable)"
+  GOENV_VERSION=1.9.3 run goenv-version
+  assert_success "1.9.3 (set by GOENV_VERSION environment variable)"
 }
 
 @test "set by local file" {

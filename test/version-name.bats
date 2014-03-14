@@ -18,11 +18,11 @@ setup() {
 }
 
 @test "system version is not checked for existance" {
-  RBENV_VERSION=system run goenv-version-name
+  GOENV_VERSION=system run goenv-version-name
   assert_success "system"
 }
 
-@test "RBENV_VERSION has precedence over local" {
+@test "GOENV_VERSION has precedence over local" {
   create_version "1.8.7"
   create_version "1.9.3"
 
@@ -30,7 +30,7 @@ setup() {
   run goenv-version-name
   assert_success "1.8.7"
 
-  RBENV_VERSION=1.9.3 run goenv-version-name
+  GOENV_VERSION=1.9.3 run goenv-version-name
   assert_success "1.9.3"
 }
 
@@ -48,7 +48,7 @@ setup() {
 }
 
 @test "missing version" {
-  RBENV_VERSION=1.2 run goenv-version-name
+  GOENV_VERSION=1.2 run goenv-version-name
   assert_failure "goenv: version \`1.2' is not installed"
 }
 

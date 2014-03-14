@@ -48,7 +48,7 @@ remove_from_path() {
   echo "${result%:}"
 }
 
-RBENV_VERSION="$(goenv-version-name)"
+GOENV_VERSION="$(goenv-version-name)"
 RBENV_COMMAND="$1"
 
 if [ -z "$RBENV_COMMAND" ]; then
@@ -56,11 +56,11 @@ if [ -z "$RBENV_COMMAND" ]; then
   exit 1
 fi
 
-if [ "$RBENV_VERSION" = "system" ]; then
+if [ "$GOENV_VERSION" = "system" ]; then
   PATH="$(remove_from_path "${GOENV_ROOT}/shims")"
   RBENV_COMMAND_PATH="$(command -v "$RBENV_COMMAND" || true)"
 else
-  RBENV_COMMAND_PATH="${GOENV_ROOT}/versions/${RBENV_VERSION}/bin/${RBENV_COMMAND}"
+  RBENV_COMMAND_PATH="${GOENV_ROOT}/versions/${GOENV_VERSION}/bin/${RBENV_COMMAND}"
 fi
 
 OLDIFS="$IFS"

@@ -5,7 +5,7 @@ load test_helper
 create_executable() {
   name="${1?}"
   shift 1
-  bin="${GOENV_ROOT}/versions/${RBENV_VERSION}/bin"
+  bin="${GOENV_ROOT}/versions/${GOENV_VERSION}/bin"
   mkdir -p "$bin"
   { if [ $# -eq 0 ]; then cat -
     else echo "$@"
@@ -15,13 +15,13 @@ create_executable() {
 }
 
 @test "fails with invalid version" {
-  export RBENV_VERSION="2.0"
+  export GOENV_VERSION="2.0"
   run goenv-exec ruby -v
   assert_failure "goenv: version \`2.0' is not installed"
 }
 
 @test "completes with names of executables" {
-  export RBENV_VERSION="2.0"
+  export GOENV_VERSION="2.0"
   create_executable "ruby" "#!/bin/sh"
   create_executable "rake" "#!/bin/sh"
 
@@ -39,7 +39,7 @@ OUT
   mkdir -p "${hook_path}/exec"
   echo "export HELLO='from hook'" > "${hook_path}/exec/hello.bash"
 
-  export RBENV_VERSION=system
+  export GOENV_VERSION=system
   GOENV_HOOK_PATH="$hook_path" run goenv-exec env
   assert_success
   assert_line "HELLO=from hook"
@@ -53,14 +53,14 @@ hellos=(\$(printf "hello\\tugly world\\nagain"))
 echo HELLO="\$(printf ":%s" "\${hellos[@]}")"
 SH
 
-  export RBENV_VERSION=system
+  export GOENV_VERSION=system
   GOENV_HOOK_PATH="$hook_path" IFS=$' \t\n' run goenv-exec env
   assert_success
   assert_line "HELLO=:hello:ugly:world:again"
 }
 
 @test "forwards all arguments" {
-  export RBENV_VERSION="2.0"
+  export GOENV_VERSION="2.0"
   create_executable "ruby" <<SH
 #!$BASH
 echo \$0
@@ -83,7 +83,7 @@ OUT
 }
 
 @test "supports ruby -S <cmd>" {
-  export RBENV_VERSION="2.0"
+  export GOENV_VERSION="2.0"
 
   # emulate `ruby -S' behavior
   create_executable "ruby" <<SH

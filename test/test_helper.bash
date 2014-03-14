@@ -1,4 +1,4 @@
-unset RBENV_VERSION
+unset GOENV_VERSION
 unset GOENV_DIR
 
 RBENV_TEST_DIR="${BATS_TMPDIR}/goenv"

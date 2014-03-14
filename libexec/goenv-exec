@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
 #
-# Summary: Run an executable with the selected Ruby version
+# Summary: Run an executable with the selected Golang version
 #
 # Usage: goenv exec <command> [arg1 arg2...]
 #
-# Runs an executable by first preparing PATH so that the selected Ruby
+# Runs an executable by first preparing PATH so that the selected Golang
 # version's `bin' directory is at the front.
 #
-# For example, if the currently selected Ruby version is 1.9.3-p327:
-#   goenv exec bundle install
+# For example, if the currently selected Golang version is go1:
+#   goenv exec go install
 #
 # is equivalent to:
-#   PATH="$GOENV_ROOT/versions/1.9.3-p327/bin:$PATH" bundle install
+#   PATH="$GOENV_ROOT/versions/go1/bin:$PATH" go install
 
 set -e
 [ -n "$GOENV_DEBUG" ] && set -x
@@ -21,7 +21,7 @@ if [ "$1" = "--complete" ]; then
   exec goenv shims --short
 fi
 
-RBENV_VERSION="$(goenv-version-name)"
+GOENV_VERSION="$(goenv-version-name)"
 RBENV_COMMAND="$1"
 
 if [ -z "$RBENV_COMMAND" ]; then
@@ -29,7 +29,7 @@ if [ -z "$RBENV_COMMAND" ]; then
   exit 1
 fi
 
-export RBENV_VERSION
+export GOENV_VERSION
 RBENV_COMMAND_PATH="$(goenv-which "$RBENV_COMMAND")"
 RBENV_BIN_PATH="${RBENV_COMMAND_PATH%/*}"
 
@@ -41,7 +41,7 @@ for script in "${scripts[@]}"; do
 done
 
 shift 1
-if [ "$RBENV_VERSION" != "system" ]; then
+if [ "$GOENV_VERSION" != "system" ]; then
   export PATH="${RBENV_BIN_PATH}:${PATH}"
 fi
 exec -a "$RBENV_COMMAND" "$RBENV_COMMAND_PATH" "$@"

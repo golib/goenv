@@ -12,7 +12,7 @@
 # file in the current directory and each parent directory. If no such
 # file is found in the tree, goenv will use the global Ruby version
 # specified with `goenv global'. A version specified with the
-# `RBENV_VERSION' environment variable takes precedence over local
+# `GOENV_VERSION' environment variable takes precedence over local
 # and global versions.
 #
 # For backwards compatibility, goenv will also read version
@@ -33,13 +33,13 @@ if [ "$1" = "--complete" ]; then
   exec goenv-versions --bare
 fi
 
-RBENV_VERSION="$1"
+GOENV_VERSION="$1"
 
-if [ "$RBENV_VERSION" = "--unset" ]; then
+if [ "$GOENV_VERSION" = "--unset" ]; then
   rm -f .ruby-version .goenv-version
-elif [ -n "$RBENV_VERSION" ]; then
-  previous_file="$(RBENV_VERSION= goenv-version-origin || true)"
-  goenv-version-file-write .ruby-version "$RBENV_VERSION"
+elif [ -n "$GOENV_VERSION" ]; then
+  previous_file="$(GOENV_VERSION= goenv-version-origin || true)"
+  goenv-version-file-write .ruby-version "$GOENV_VERSION"
   if [ "$previous_file" -ef .goenv-version ]; then
     rm -f .goenv-version
     { echo "goenv: removed existing \`.goenv-version' file and migrated"

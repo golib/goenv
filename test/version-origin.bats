@@ -20,9 +20,9 @@ setup() {
   assert_success "${GOENV_ROOT}/version"
 }
 
-@test "detects RBENV_VERSION" {
-  RBENV_VERSION=1 run goenv-version-origin
-  assert_success "RBENV_VERSION environment variable"
+@test "detects GOENV_VERSION" {
+  GOENV_VERSION=1 run goenv-version-origin
+  assert_success "GOENV_VERSION environment variable"
 }
 
 @test "detects local file" {

@@ -5,7 +5,7 @@
 # Usage: goenv shell <version>
 #        goenv shell --unset
 #
-# Sets a shell-specific Ruby version by setting the `RBENV_VERSION'
+# Sets a shell-specific Ruby version by setting the `GOENV_VERSION'
 # environment variable in your shell. This version overrides local
 # application-specific versions and the global version.
 #
@@ -27,11 +27,11 @@ version="$1"
 shell="$(basename "${RBENV_SHELL:-$SHELL}")"
 
 if [ -z "$version" ]; then
-  if [ -z "$RBENV_VERSION" ]; then
+  if [ -z "$GOENV_VERSION" ]; then
     echo "goenv: no shell-specific version configured" >&2
     exit 1
   else
-    echo "echo \"\$RBENV_VERSION\""
+    echo "echo \"\$GOENV_VERSION\""
     exit
   fi
 fi
@@ -39,10 +39,10 @@ fi
 if [ "$version" = "--unset" ]; then
   case "$shell" in
   fish )
-    echo "set -e RBENV_VERSION"
+    echo "set -e GOENV_VERSION"
     ;;
   * )
-    echo "unset RBENV_VERSION"
+    echo "unset GOENV_VERSION"
     ;;
   esac
   exit
@@ -52,10 +52,10 @@ fi
 if goenv-prefix "$version" >/dev/null; then
   case "$shell" in
   fish )
-    echo "setenv RBENV_VERSION \"${version}\""
+    echo "setenv GOENV_VERSION \"${version}\""
     ;;
   * )
-    echo "export RBENV_VERSION=\"${version}\""
+    echo "export GOENV_VERSION=\"${version}\""
     ;;
   esac
 else
