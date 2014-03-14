@@ -14,7 +14,7 @@ create_file() {
 
 @test "prints global file if no version files exist" {
   assert [ ! -e "${GOENV_ROOT}/version" ]
-  assert [ ! -e ".ruby-version" ]
+  assert [ ! -e ".go-version" ]
   run goenv-version-file
   assert_success "${GOENV_ROOT}/version"
 }
@@ -40,9 +40,9 @@ create_file() {
 }
 
 @test "in current directory" {
-  create_file ".ruby-version"
+  create_file ".go-version"
   run goenv-version-file
-  assert_success "${RBENV_TEST_DIR}/.ruby-version"
+  assert_success "${RBENV_TEST_DIR}/.go-version"
 }
 
 @test "legacy file in current directory" {
@@ -51,31 +51,31 @@ create_file() {
   assert_success "${RBENV_TEST_DIR}/.goenv-version"
 }
 
-@test ".ruby-version has precedence over legacy file" {
-  create_file ".ruby-version"
+@test ".go-version has precedence over legacy file" {
+  create_file ".go-version"
   create_file ".goenv-version"
   run goenv-version-file
-  assert_success "${RBENV_TEST_DIR}/.ruby-version"
+  assert_success "${RBENV_TEST_DIR}/.go-version"
 }
 
 @test "in parent directory" {
-  create_file ".ruby-version"
+  create_file ".go-version"
   mkdir -p project
   cd project
   run goenv-version-file
-  assert_success "${RBENV_TEST_DIR}/.ruby-version"
+  assert_success "${RBENV_TEST_DIR}/.go-version"
 }
 
 @test "topmost file has precedence" {
-  create_file ".ruby-version"
-  create_file "project/.ruby-version"
+  create_file ".go-version"
+  create_file "project/.go-version"
   cd project
   run goenv-version-file
-  assert_success "${RBENV_TEST_DIR}/project/.ruby-version"
+  assert_success "${RBENV_TEST_DIR}/project/.go-version"
 }
 
 @test "legacy file has precedence if higher" {
-  create_file ".ruby-version"
+  create_file ".go-version"
   create_file "project/.goenv-version"
   cd project
   run goenv-version-file
@@ -83,17 +83,17 @@ create_file() {
 }
 
 @test "GOENV_DIR has precedence over PWD" {
-  create_file "widget/.ruby-version"
-  create_file "project/.ruby-version"
+  create_file "widget/.go-version"
+  create_file "project/.go-version"
   cd project
   GOENV_DIR="${RBENV_TEST_DIR}/widget" run goenv-version-file
-  assert_success "${RBENV_TEST_DIR}/widget/.ruby-version"
+  assert_success "${RBENV_TEST_DIR}/widget/.go-version"
 }
 
 @test "PWD is searched if GOENV_DIR yields no results" {
   mkdir -p "widget/blank"
-  create_file "project/.ruby-version"
+  create_file "project/.go-version"
   cd project
   GOENV_DIR="${RBENV_TEST_DIR}/widget/blank" run goenv-version-file
-  assert_success "${RBENV_TEST_DIR}/project/.ruby-version"
+  assert_success "${RBENV_TEST_DIR}/project/.go-version"
 }

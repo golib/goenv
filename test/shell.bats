@@ -5,7 +5,7 @@ load test_helper
 @test "no shell version" {
   mkdir -p "${RBENV_TEST_DIR}/myproject"
   cd "${RBENV_TEST_DIR}/myproject"
-  echo "1.2.3" > .ruby-version
+  echo "1.2.3" > .go-version
   GOENV_VERSION="" run goenv-sh-shell
   assert_failure "goenv: no shell-specific version configured"
 }

@@ -6,8 +6,8 @@ set -e
 find_local_version_file() {
   local root="$1"
   while [ -n "$root" ]; do
-    if [ -e "${root}/.ruby-version" ]; then
-      echo "${root}/.ruby-version"
+    if [ -e "${root}/.go-version" ]; then
+      echo "${root}/.go-version"
       exit
     elif [ -e "${root}/.goenv-version" ]; then
       echo "${root}/.goenv-version"

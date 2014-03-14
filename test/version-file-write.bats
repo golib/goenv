@@ -15,10 +15,10 @@ setup() {
 }
 
 @test "setting nonexistent version fails" {
-  assert [ ! -e ".ruby-version" ]
-  run goenv-version-file-write ".ruby-version" "1.8.7"
+  assert [ ! -e ".go-version" ]
+  run goenv-version-file-write ".go-version" "1.8.7"
   assert_failure "goenv: version \`1.8.7' not installed"
-  assert [ ! -e ".ruby-version" ]
+  assert [ ! -e ".go-version" ]
 }
 
 @test "writes value to arbitrary file" {

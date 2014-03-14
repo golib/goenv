@@ -5,7 +5,7 @@ load test_helper
 @test "prefix" {
   mkdir -p "${RBENV_TEST_DIR}/myproject"
   cd "${RBENV_TEST_DIR}/myproject"
-  echo "1.2.3" > .ruby-version
+  echo "1.2.3" > .go-version
   mkdir -p "${GOENV_ROOT}/versions/1.2.3"
   run goenv-prefix
   assert_success "${GOENV_ROOT}/versions/1.2.3"

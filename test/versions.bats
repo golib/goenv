@@ -104,12 +104,12 @@ OUT
   stub_system_ruby
   create_version "1.9.3"
   create_version "2.0.0"
-  cat > ".ruby-version" <<<"1.9.3"
+  cat > ".go-version" <<<"1.9.3"
   run goenv-versions
   assert_success
   assert_output <<OUT
   system
-* 1.9.3 (set by ${RBENV_TEST_DIR}/.ruby-version)
+* 1.9.3 (set by ${RBENV_TEST_DIR}/.go-version)
   2.0.0
 OUT
 }

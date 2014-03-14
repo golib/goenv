@@ -8,13 +8,13 @@ setup() {
 }
 
 @test "no version" {
-  assert [ ! -e "${PWD}/.ruby-version" ]
+  assert [ ! -e "${PWD}/.go-version" ]
   run goenv-local
   assert_failure "goenv: no local version configured for this directory"
 }
 
 @test "local version" {
-  echo "1.2.3" > .ruby-version
+  echo "1.2.3" > .go-version
   run goenv-local
   assert_success "1.2.3"
 }
@@ -25,24 +25,24 @@ setup() {
   assert_success "1.2.3"
 }
 
-@test "local .ruby-version has precedence over .goenv-version" {
+@test "local .go-version has precedence over .goenv-version" {
   echo "1.8" > .goenv-version
-  echo "2.0" > .ruby-version
+  echo "2.0" > .go-version
   run goenv-local
   assert_success "2.0"
 }
 
 @test "ignores version in parent directory" {
-  echo "1.2.3" > .ruby-version
+  echo "1.2.3" > .go-version
   mkdir -p "subdir" && cd "subdir"
   run goenv-local
   assert_failure
 }
 
 @test "ignores GOENV_DIR" {
-  echo "1.2.3" > .ruby-version
+  echo "1.2.3" > .go-version
   mkdir -p "$HOME"
-  echo "2.0-home" > "${HOME}/.ruby-version"
+  echo "2.0-home" > "${HOME}/.go-version"
   GOENV_DIR="$HOME" run goenv-local
   assert_success "1.2.3"
 }
@@ -51,20 +51,20 @@ setup() {
   mkdir -p "${GOENV_ROOT}/versions/1.2.3"
   run goenv-local 1.2.3
   assert_success ""
-  assert [ "$(cat .ruby-version)" = "1.2.3" ]
+  assert [ "$(cat .go-version)" = "1.2.3" ]
 }
 
 @test "changes local version" {
-  echo "1.0-pre" > .ruby-version
+  echo "1.0-pre" > .go-version
   mkdir -p "${GOENV_ROOT}/versions/1.2.3"
   run goenv-local
   assert_success "1.0-pre"
   run goenv-local 1.2.3
   assert_success ""
-  assert [ "$(cat .ruby-version)" = "1.2.3" ]
+  assert [ "$(cat .go-version)" = "1.2.3" ]
 }
 
-@test "renames .goenv-version to .ruby-version" {
+@test "renames .goenv-version to .go-version" {
   echo "1.8.7" > .goenv-version
   mkdir -p "${GOENV_ROOT}/versions/1.9.3"
   run goenv-local
@@ -73,10 +73,10 @@ setup() {
   assert_success
   assert_output <<OUT
 goenv: removed existing \`.goenv-version' file and migrated
-       local version specification to \`.ruby-version' file
+       local version specification to \`.go-version' file
 OUT
   assert [ ! -e .goenv-version ]
-  assert [ "$(cat .ruby-version)" = "1.9.3" ]
+  assert [ "$(cat .go-version)" = "1.9.3" ]
 }
 
 @test "doesn't rename .goenv-version if changing the version failed" {
@@ -84,12 +84,12 @@ OUT
   assert [ ! -e "${GOENV_ROOT}/versions/1.9.3" ]
   run goenv-local "1.9.3"
   assert_failure "goenv: version \`1.9.3' not installed"
-  assert [ ! -e .ruby-version ]
+  assert [ ! -e .go-version ]
   assert [ "$(cat .goenv-version)" = "1.8.7" ]
 }
 
 @test "unsets local version" {
-  touch .ruby-version
+  touch .go-version
   run goenv-local --unset
   assert_success ""
   assert [ ! -e .goenv-version ]

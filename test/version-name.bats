@@ -26,7 +26,7 @@ setup() {
   create_version "1.8.7"
   create_version "1.9.3"
 
-  cat > ".ruby-version" <<<"1.8.7"
+  cat > ".go-version" <<<"1.8.7"
   run goenv-version-name
   assert_success "1.8.7"
 
@@ -42,7 +42,7 @@ setup() {
   run goenv-version-name
   assert_success "1.8.7"
 
-  cat > ".ruby-version" <<<"1.9.3"
+  cat > ".go-version" <<<"1.9.3"
   run goenv-version-name
   assert_success "1.9.3"
 }
@@ -54,12 +54,12 @@ setup() {
 
 @test "version with prefix in name" {
   create_version "1.8.7"
-  cat > ".ruby-version" <<<"ruby-1.8.7"
+  cat > ".go-version" <<<"ruby-1.8.7"
   run goenv-version-name
   assert_success
   assert_output <<OUT
 warning: ignoring extraneous \`ruby-' prefix in version \`ruby-1.8.7'
-         (set by ${PWD}/.ruby-version)
+         (set by ${PWD}/.go-version)
 1.8.7
 OUT
 }

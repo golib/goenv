@@ -26,9 +26,9 @@ setup() {
 }
 
 @test "detects local file" {
-  touch .ruby-version
+  touch .go-version
   run goenv-version-origin
-  assert_success "${PWD}/.ruby-version"
+  assert_success "${PWD}/.go-version"
 }
 
 @test "detects alternate version file" {

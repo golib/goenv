@@ -1,27 +1,27 @@
 #!/usr/bin/env bash
 #
-# Summary: Set or show the local application-specific Ruby version
+# Summary: Set or show the local project-specific Golang version
 #
 # Usage: goenv local <version>
 #        goenv local --unset
 #
-# Sets the local application-specific Ruby version by writing the
-# version name to a file named `.ruby-version'.
+# Sets the local project-specific Golang version by writing the
+# version name to a file named `.go-version'.
 #
-# When you run a Ruby command, goenv will look for a `.ruby-version'
+# When you run a Golang command, goenv will look for a `.go-version'
 # file in the current directory and each parent directory. If no such
-# file is found in the tree, goenv will use the global Ruby version
+# file is found in the tree, goenv will use the global Golang version
 # specified with `goenv global'. A version specified with the
 # `GOENV_VERSION' environment variable takes precedence over local
 # and global versions.
 #
 # For backwards compatibility, goenv will also read version
-# specifications from `.goenv-version' files, but a `.ruby-version'
+# specifications from `.goenv-version' files, but a `.go-version'
 # file in the same directory takes precedence.
 #
-# <version> should be a string matching a Ruby version known to goenv.
-# The special version string `system' will use your default system Ruby.
-# Run `goenv versions' for a list of available Ruby versions.
+# <version> should be a string matching a Golang version known to goenv.
+# The special version string `system' will use your default system Golang.
+# Run `goenv versions' for a list of available Golang versions.
 
 set -e
 [ -n "$GOENV_DEBUG" ] && set -x
@@ -36,18 +36,18 @@ fi
 GOENV_VERSION="$1"
 
 if [ "$GOENV_VERSION" = "--unset" ]; then
-  rm -f .ruby-version .goenv-version
+  rm -f .go-version .goenv-version
 elif [ -n "$GOENV_VERSION" ]; then
   previous_file="$(GOENV_VERSION= goenv-version-origin || true)"
-  goenv-version-file-write .ruby-version "$GOENV_VERSION"
+  goenv-version-file-write .go-version "$GOENV_VERSION"
   if [ "$previous_file" -ef .goenv-version ]; then
     rm -f .goenv-version
     { echo "goenv: removed existing \`.goenv-version' file and migrated"
-      echo "       local version specification to \`.ruby-version' file"
+      echo "       local version specification to \`.go-version' file"
     } >&2
   fi
 else
-  goenv-version-file-read .ruby-version ||
+  goenv-version-file-read .go-version ||
   goenv-version-file-read .goenv-version ||
   { echo "goenv: no local version configured for this directory"
     exit 1

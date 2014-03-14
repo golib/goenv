@@ -36,15 +36,15 @@ RVM?**](https://github.com/sstephenson/goenv/wiki/Why-goenv%3F)
 * [How It Works](#how-it-works)
   * [Understanding PATH](#understanding-path)
   * [Understanding Shims](#understanding-shims)
-  * [Choosing the Ruby Version](#choosing-the-ruby-version)
+  * [Choosing the Ruby Version](#choosing-the-go-version)
   * [Locating the Ruby Installation](#locating-the-ruby-installation)
 * [Installation](#installation)
   * [Basic GitHub Checkout](#basic-github-checkout)
     * [Upgrading](#upgrading)
   * [Homebrew on Mac OS X](#homebrew-on-mac-os-x)
   * [How goenv hooks into your shell](#how-goenv-hooks-into-your-shell)
-  * [Installing Ruby Versions](#installing-ruby-versions)
-  * [Uninstalling Ruby Versions](#uninstalling-ruby-versions)
+  * [Installing Ruby Versions](#installing-go-versions)
+  * [Uninstalling Ruby Versions](#uninstalling-go-versions)
 * [Command Reference](#command-reference)
   * [goenv local](#goenv-local)
   * [goenv global](#goenv-global)
@@ -109,13 +109,13 @@ reading it from the following sources, in this order:
    the [`goenv shell`](#goenv-shell) command to set this environment
    variable in your current shell session.
 
-2. The first `.ruby-version` file found by searching the directory of the
+2. The first `.go-version` file found by searching the directory of the
    script you are executing and each of its parent directories until reaching
    the root of your filesystem.
 
-3. The first `.ruby-version` file found by searching the current working
+3. The first `.go-version` file found by searching the current working
    directory and each of its parent directories until reaching the root of your
-   filesystem. You can modify the `.ruby-version` file in the current working
+   filesystem. You can modify the `.go-version` file in the current working
    directory with the [`goenv local`](#goenv-local) command.
 
 4. The global `~/.goenv/version` file. You can modify this file using
@@ -190,7 +190,7 @@ easy to fork and contribute any changes back upstream.
 
 5. _(Optional)_ Install [ruby-build][], which provides the
    `goenv install` command that simplifies the process of
-   [installing new Ruby versions](#installing-ruby-versions).
+   [installing new Ruby versions](#installing-go-versions).
 
 #### Upgrading
 
@@ -307,7 +307,7 @@ first argument. The most common subcommands are:
 ### goenv local
 
 Sets a local application-specific Ruby version by writing the version
-name to a `.ruby-version` file in the current directory. This version
+name to a `.go-version` file in the current directory. This version
 overrides the global version, and can be overridden itself by setting
 the `GOENV_VERSION` environment variable or with the `goenv shell`
 command.
@@ -322,13 +322,13 @@ configured local version. You can also unset the local version:
 Previous versions of goenv stored local version specifications in a
 file named `.goenv-version`. For backwards compatibility, goenv will
 read a local version specified in an `.goenv-version` file, but a
-`.ruby-version` file in the same directory will take precedence.
+`.go-version` file in the same directory will take precedence.
 
 ### goenv global
 
 Sets the global version of Ruby to be used in all shells by writing
 the version name to the `~/.goenv/version` file. This version can be
-overridden by an application-specific `.ruby-version` file, or by
+overridden by an application-specific `.go-version` file, or by
 setting the `GOENV_VERSION` environment variable.
 
     $ goenv global 1.8.7-p352
@@ -378,7 +378,7 @@ Displays the currently active Ruby version, along with information on
 how it was set.
 
     $ goenv version
-    1.8.7-p352 (set by /Volumes/37signals/basecamp/.ruby-version)
+    1.8.7-p352 (set by /Volumes/37signals/basecamp/.go-version)
 
 ### goenv rehash
 
@@ -423,9 +423,9 @@ tracker](https://github.com/sstephenson/goenv/issues).
 
 **0.4.0** (January 4, 2013)
 
-* goenv now prefers `.ruby-version` files to `.goenv-version` files
+* goenv now prefers `.go-version` files to `.goenv-version` files
   for specifying local application-specific versions. The
-  `.ruby-version` file has the same format as `.goenv-version` but is
+  `.go-version` file has the same format as `.goenv-version` but is
   [compatible with other Ruby version
   managers](https://gist.github.com/1912050).
 * Deprecated `ruby-local-exec` and moved its functionality into the
