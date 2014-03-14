@@ -13,8 +13,8 @@ if [ "$1" = "--complete" ]; then
   exit
 fi
 
-RBENV_COMMAND="$1"
-if [ -z "$RBENV_COMMAND" ]; then
+GOENV_COMMAND="$1"
+if [ -z "$GOENV_COMMAND" ]; then
   goenv-help --usage hooks >&2
   exit 1
 fi
@@ -47,7 +47,7 @@ IFS=: hook_paths=($GOENV_HOOK_PATH)
 
 shopt -s nullglob
 for path in "${hook_paths[@]}"; do
-  for script in "$path/$RBENV_COMMAND"/*.bash; do
+  for script in "$path/$GOENV_COMMAND"/*.bash; do
     echo $(realpath $script)
   done
 done

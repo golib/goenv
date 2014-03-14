@@ -22,16 +22,16 @@ if [ "$1" = "--complete" ]; then
 fi
 
 GOENV_VERSION="$(goenv-version-name)"
-RBENV_COMMAND="$1"
+GOENV_COMMAND="$1"
 
-if [ -z "$RBENV_COMMAND" ]; then
+if [ -z "$GOENV_COMMAND" ]; then
   goenv-help --usage exec >&2
   exit 1
 fi
 
 export GOENV_VERSION
-RBENV_COMMAND_PATH="$(goenv-which "$RBENV_COMMAND")"
-RBENV_BIN_PATH="${RBENV_COMMAND_PATH%/*}"
+GOENV_COMMAND_PATH="$(goenv-which "$GOENV_COMMAND")"
+RBENV_BIN_PATH="${GOENV_COMMAND_PATH%/*}"
 
 OLDIFS="$IFS"
 IFS=$'\n' scripts=(`goenv-hooks exec`)
@@ -44,4 +44,4 @@ shift 1
 if [ "$GOENV_VERSION" != "system" ]; then
   export PATH="${RBENV_BIN_PATH}:${PATH}"
 fi
-exec -a "$RBENV_COMMAND" "$RBENV_COMMAND_PATH" "$@"
+exec -a "$GOENV_COMMAND" "$GOENV_COMMAND_PATH" "$@"

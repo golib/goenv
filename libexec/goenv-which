@@ -49,18 +49,18 @@ remove_from_path() {
 }
 
 GOENV_VERSION="$(goenv-version-name)"
-RBENV_COMMAND="$1"
+GOENV_COMMAND="$1"
 
-if [ -z "$RBENV_COMMAND" ]; then
+if [ -z "$GOENV_COMMAND" ]; then
   goenv-help --usage which >&2
   exit 1
 fi
 
 if [ "$GOENV_VERSION" = "system" ]; then
   PATH="$(remove_from_path "${GOENV_ROOT}/shims")"
-  RBENV_COMMAND_PATH="$(command -v "$RBENV_COMMAND" || true)"
+  GOENV_COMMAND_PATH="$(command -v "$GOENV_COMMAND" || true)"
 else
-  RBENV_COMMAND_PATH="${GOENV_ROOT}/versions/${GOENV_VERSION}/bin/${RBENV_COMMAND}"
+  GOENV_COMMAND_PATH="${GOENV_ROOT}/versions/${GOENV_VERSION}/bin/${GOENV_COMMAND}"
 fi
 
 OLDIFS="$IFS"
@@ -70,12 +70,12 @@ for script in "${scripts[@]}"; do
   source "$script"
 done
 
-if [ -x "$RBENV_COMMAND_PATH" ]; then
-  echo "$RBENV_COMMAND_PATH"
+if [ -x "$GOENV_COMMAND_PATH" ]; then
+  echo "$GOENV_COMMAND_PATH"
 else
-  echo "goenv: $RBENV_COMMAND: command not found" >&2
+  echo "goenv: $GOENV_COMMAND: command not found" >&2
 
-  versions="$(goenv-whence "$RBENV_COMMAND" || true)"
+  versions="$(goenv-whence "$GOENV_COMMAND" || true)"
   if [ -n "$versions" ]; then
     { echo
       echo "The \`$1' command exists in these Ruby versions:"
