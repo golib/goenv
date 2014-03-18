@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # Summary: Configure the shell environment for goenv
-# Usage: eval "$(goenv init - [--no-rehash] [<shell>])"
+# Usage: eval "$(goenv init - [--no-setup] [<shell>])"
 
 set -e
 [ -n "$GOENV_DEBUG" ] && set -x
 
 print=""
-no_rehash=""
+no_setup=""
 for args in "$@"
 do
   if [ "$args" = "-" ]; then
@@ -14,8 +14,8 @@ do
     shift
   fi
 
-  if [ "$args" = "--no-rehash" ]; then
-    no_rehash=1
+  if [ "$args" = "--no-setup" ]; then
+    no_setup=1
     shift
   fi
 done
@@ -120,8 +120,8 @@ if [ -r "$completion" ]; then
   esac
 fi
 
-if [ -z "$no_rehash" ]; then
-  echo 'goenv rehash 2>/dev/null'
+if [ -z "$no_setup" ]; then
+  echo 'goenv setup 2>/dev/null'
 fi
 
 commands=(`goenv-commands --sh`)

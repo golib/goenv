@@ -6,7 +6,7 @@ load test_helper
   run goenv-commands
   assert_success
   assert_line "init"
-  assert_line "rehash"
+  assert_line "setup"
   assert_line "shell"
   refute_line "sh-shell"
   assert_line "echo"

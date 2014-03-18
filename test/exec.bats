@@ -25,7 +25,7 @@ create_executable() {
   create_executable "go" "#!/bin/sh"
   create_executable "cover" "#!/bin/sh"
 
-  goenv-rehash
+  goenv-setup
   run goenv-completions exec
   assert_success
   assert_output <<OUT
@@ -107,7 +107,7 @@ SH
 echo hello fix
 SH
 
-  goenv-rehash
+  goenv-setup
   run go -S fix
   assert_success "hello fix"
 }

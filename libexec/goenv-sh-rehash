@@ -4,18 +4,18 @@ set -e
 
 # Provide goenv completions
 if [ "$1" = "--complete" ]; then
-  exec goenv-rehash --complete
+  exec goenv-setup --complete
 fi
 
 shell="$(basename "${GOENV_SHELL:-$SHELL}")"
 
-# When goenv shell integration is enabled, delegate to goenv-rehash,
+# When goenv shell integration is enabled, delegate to goenv-setup,
 # then tell the shell to empty its command lookup cache.
-goenv-rehash
+goenv-setup
 
 case "$shell" in
 fish )
-  # no rehash support
+  # no setup support
   ;;
 * )
   echo "hash -r 2>/dev/null || true"

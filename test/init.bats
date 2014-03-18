@@ -11,10 +11,10 @@ load test_helper
   assert [ -d "${GOENV_ROOT}/versions" ]
 }
 
-@test "auto rehash" {
+@test "auto setup" {
   run goenv-init -
   assert_success
-  assert_line "goenv rehash 2>/dev/null"
+  assert_line "goenv setup 2>/dev/null"
 }
 
 @test "setup shell completions" {
@@ -44,10 +44,10 @@ load test_helper
   assert_line 'status --is-interactive; and . (goenv init -|psub)'
 }
 
-@test "option to skip rehash" {
-  run goenv-init - --no-rehash
+@test "option to skip setup" {
+  run goenv-init - --no-setup
   assert_success
-  refute_line "goenv rehash 2>/dev/null"
+  refute_line "goenv setup 2>/dev/null"
 }
 
 @test "adds shims to PATH" {

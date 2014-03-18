@@ -45,7 +45,7 @@ your Golang packages with painless.
   * [goenv shell](#goenv-shell)
   * [goenv versions](#goenv-versions)
   * [goenv version](#goenv-version)
-  * [goenv rehash](#goenv-rehash)
+  * [goenv setup](#goenv-setup)
   * [goenv which](#goenv-which)
   * [goenv whence](#goenv-whence)
 * [Development](#development)
@@ -81,7 +81,7 @@ goenv works by inserting a directory of _shims_ at the front of your
 
     ~/.goenv/shims:/usr/local/bin:/usr/bin:/bin
 
-Through a process called _rehashing_, goenv maintains shims in that
+Through a process called _setuping_, goenv maintains shims in that
 directory to match every Golang command across every installed version
 of Golang — `go`, `fix`, `cover`, and so on.
 
@@ -257,9 +257,9 @@ opposed to this idea. Here's what `goenv init` actually does:
    up. There is also a `~/.goenv/completions/goenv.zsh` for Zsh
    users.
 
-3. Rehashes shims. From time to time you'll need to rebuild your
+3. Setupes shims. From time to time you'll need to rebuild your
    shim files. Doing this automatically makes sure everything is up to
-   date. You can always run `goenv rehash` manually.
+   date. You can always run `goenv setup` manually.
 
 4. Installs the sh dispatcher. This bit is also optional, but allows
    goenv and plugins to change variables in your current shell, making
@@ -388,13 +388,13 @@ how it was set.
     $ goenv version
     1.2.1 (set by /Volumes/golang/.go-version)
 
-### goenv rehash
+### goenv setup
 
 Installs shims for all Golang executables known to goenv (i.e.,
 `~/.goenv/versions/*/bin/*`). Run this command after you install a new
 version of Golang, or install a program that provides commands.
 
-    $ goenv rehash
+    $ goenv setup
 
 ### goenv which
 

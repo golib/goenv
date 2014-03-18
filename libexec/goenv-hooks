@@ -8,7 +8,7 @@ set -e
 # Provide goenv completions
 if [ "$1" = "--complete" ]; then
   echo exec
-  echo rehash
+  echo setup
   echo which
   exit
 fi

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Summary: Rehash goenv shims (run this after installing executables)
+# Summary: Setup goenv shims (run this after installing executables)
 
 set -e
 [ -n "$GOENV_DEBUG" ] && set -x
