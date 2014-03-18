@@ -2,9 +2,37 @@
 # Summary: Shared functions of goenv
 #
 
+__palette() {
+  echo -e "\033[0;$2m$1\033[0m"
+}
+
+goenv_debug() {
+  echo $(__palette "$1" "36")
+}
+
+goenv_info() {
+  echo $(__palette "$1" "34")
+}
+
+goenv_notice() {
+  echo $(__palette "$1" "35")
+}
+
+goenv_success() {
+  echo $(__palette "$1" "32")
+}
+
+goenv_warning() {
+  echo $(__palette "$1" "33")
+}
+
+goenv_error() {
+  echo $(__palette "$1" "31")
+}
+
 READLINK=$(type -p greadlink readlink | head -1)
 if [ -z "$READLINK" ]; then
-  echo "goenv: cannot find readlink - are you missing GNU coreutils?" >&2
+  goenv_error "goenv: cannot find readlink - are you missing GNU coreutils?" >&2
   exit 1
 fi
 
