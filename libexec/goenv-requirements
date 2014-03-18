@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+# Summary: Checking requirements for installing Golang from source
+#
+
+set -e
+[ -n "$GOENV_DEBUG" ] && set -x
+
+. goenv+shared
+
+goenv_check_gcc() {
+  identifier="command not found"
+  verbose=$(gcc -v 2>&1)
+
+  if [ -n "${identifier##*$verbose*}" ]; then
+    goenv_success "$(goenv_ok_sign) gcc is OK"
+  else
+    goenv_error "$(goenv_err_sign) gcc is FAILED"
+  fi
+}
+
+goenv_check_hg() {
+  identifier="command not found"
+  verbose=$(hg --version 2>&1)
+
+  if [ -n "${identifier##*$verbose*}" ]; then
+    goenv_success "$(goenv_ok_sign) hg (Mercurial) is OK"
+  else
+    goenv_error "$(goenv_err_sign) hg (Mercurial) is FAILED"
+  fi
+}
+
+goenv_check_git() {
+  identifier="command not found"
+  verbose=$(git --version 2>&1)
+
+  if [ -n "${identifier##*$verbose*}" ]; then
+    goenv_success "$(goenv_ok_sign) git [optional] is OK"
+  else
+    goenv_warning "$(goenv_err_sign) git [optional] is MISSED"
+  fi
+}
+
+goenv_check_debian() {
+  goenv_info 'Checking requirements for Debian/Ubuntu'
+
+  goenv_check_gcc
+  goenv_check_hg
+  goenv_check_git
+}
+
+goenv_check_redhat() {
+  goenv_info 'Checking requirements for RedHat/CentOS'
+
+  goenv_check_gcc
+  goenv_check_hg
+  goenv_check_git
+}
+
+goenv_check_osx() {
+  goenv_info 'Checking requirements for OSX'
+
+  goenv_check_gcc
+  goenv_check_hg
+  goenv_check_git
+}
+
+case "$(uname)" in
+*Debian* | *debian* | *Ubuntu* | *ubuntu*)
+  goenv_check_debian
+  ;;
+*RedHat* | *CentOS*)
+  goenv_check_redhat
+  ;;
+*Darwin* | *OSX*)
+  goenv_check_osx
+  ;;
+*MINGW* | *WIN32* | *CYGWIN*)
+  goenv_warning 'DO NOT supported under Windows for now'
+  ;;
+*)
+  goenv_error 'CAN NOT detect which operating system you using'
+  ;;
+esac
